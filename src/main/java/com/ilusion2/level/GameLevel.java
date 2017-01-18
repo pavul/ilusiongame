@@ -142,7 +142,7 @@ public abstract class GameLevel
    public GameLevel(int roomWidth, int roomHeight, int viewWidth, int viewHeight,
                 int tileColumns, int tileRows ,int tileWidth, int tileHeight)
    {
-       this();
+       this( );
        
     //primero se configura la camara con los valores que debe de llegar
     //if the level is a big one, then we instantiate the camera, the 
@@ -157,14 +157,14 @@ public abstract class GameLevel
         cam.setMarginRight( ( viewHeight / 3 )  * 2 );
    
         //se setean las variables del room
-        this.roomWidth= roomWidth;
-        this.roomHeight=roomHeight;
-        this.viewWidth=viewWidth;
-        this.viewHeight=viewHeight;
-        this.tileWidth=tileWidth;
-        this.tileHeight=tileHeight;
-        this.tileColumns=tileColumns;
-        this.tileRows=tileRows;
+        this.roomWidth = roomWidth;
+        this.roomHeight = roomHeight;
+        this.viewWidth = viewWidth;
+        this.viewHeight = viewHeight;
+        this.tileWidth = tileWidth;
+        this.tileHeight = tileHeight;
+        this.tileColumns = tileColumns;
+        this.tileRows = tileRows;
         
         
    }//
@@ -184,12 +184,20 @@ public abstract class GameLevel
    {
         this();
         
+        
+        
+        /**
+         * the camera will move inside roomWIdh and roomHeight, however
+         * the port of the view will be viewWidth and viewHeigth and
+         * gonna start moving left if the player is in the area viewWidth/3
+         * gonna start moving rigth if the player is in the area of viewWidt/3 * 2
+         */
         cam=new Camera( roomWidth,
                         roomHeight,
                         viewWidth,
                         viewHeight);
         cam.setMarginLeft( viewWidth / 3 );
-        cam.setMarginRight( ( viewHeight / 3 )  * 2 );
+        cam.setMarginRight( ( viewWidth / 3 )  * 2 );
         
         //se setean las variables del room
         this.roomWidth= roomWidth;
@@ -234,16 +242,16 @@ public abstract class GameLevel
                     //this will translating the view port
                     //to cam coordinates this makes the camera
                     //show other parts of the entire level
-                    g.translate(cam.getCamx(), cam.getCamy());
+                    g.translate( cam.getCamx( ), cam.getCamy( ) );
 
                     //this function is user to render background
-                    renderBackground(g);
+                    renderBackground( g );
                     
 //                    this function us user to render foreground
-                    renderForeground(g);
+                    renderForeground( g );
                     
 //                    this function is user to render HUD
-                    renderHUD(g);
+                    renderHUD( g );
        
                        break;
                    case GAMEOVER:
@@ -255,9 +263,9 @@ public abstract class GameLevel
                    case STOPPED:
                        break;
                    case DIALOGUING:
-                    renderBackground(g);
-                    renderForeground(g);
-                    renderHUD(g);
+                    renderBackground( g );
+                    renderForeground( g );
+                    renderHUD( g );
                        break;
                }//such
        
@@ -704,7 +712,7 @@ public abstract class GameLevel
      */
     public void removeKeyListener(Component component)
     {
-    component.removeKeyListener(keyControl);
+    component.removeKeyListener( keyControl );
     }    
     
     /**

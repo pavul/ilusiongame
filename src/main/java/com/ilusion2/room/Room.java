@@ -35,6 +35,7 @@ public class Room extends Canvas implements
     protected final int BUFFER_NUMBER=3;
     
     //thread principal del juego
+    //principal thread of the game
     protected Thread gameThread;
     
     //variable indica si el juego esta corriendo o no
@@ -43,7 +44,7 @@ public class Room extends Canvas implements
     
     
     //variable para pausar el juego
-    //this variable is used to pause the game
+    //this variable is a flag that indicate if the game is paued
     protected boolean pause;
     
     //variable que sirve para contar cuantos frames por segundo hay en la aplicacion
@@ -61,7 +62,7 @@ public class Room extends Canvas implements
    //esta estructura se utiliza para guardar aqui todos los objetos que
    //necesitan estar en todo el juego, pueden ser datos como el usuario
    //, puntajes, upgrades, etc/
-   //this structure is used to store all those data that are persistent
+   //this structure is used to store all data that is persistent
    //between levels, like, score, upgrades, items, general HUD, etc, because each
    //level can set new ammount of data when it starts
    protected Map< String, ? >persistentData;
@@ -117,7 +118,7 @@ public class Room extends Canvas implements
      */
     public Room(String lvltoLoad, Map<String, GameLevel>levelStack)
     {
-        fps=60;//setea por default a 60 frames por segundo
+        fps = 60;//setea por default a 60 frames por segundo
         this.levelStack = levelStack;
         this.firsLvlToLoad = lvltoLoad;
     }//
@@ -160,7 +161,7 @@ public class Room extends Canvas implements
      * 
      * start the thread of the game
      */
-    public final synchronized void start() 
+    public final synchronized void gameStart() 
     {
             //nivel a cargar por default, este se establece en el constructor 
             loadLvl( firsLvlToLoad );
@@ -176,17 +177,17 @@ public class Room extends Canvas implements
      * stop the thread of the game
      * wachout with this method
      */
-    public final synchronized void stop()
+    public final synchronized void GameStop()
     {
         try
         {
-            running=false;
-            gameThread.join();
+            running = false;
+            gameThread.join( );
         }
         catch(Exception e)
         {}
     }//stop
-    
+     
     
     /**
      * this method calls all update process of levels, 
@@ -484,7 +485,7 @@ public class Room extends Canvas implements
           {
               //si hay nivel se elimina y se pone a null para liberar recursos 
           currentLevel.disposeLevel();
-          currentLevel.removeKeyListener(this);
+          currentLevel.removeKeyListener( this );
           
           //se quitan los sonidos de fondo del nivel
 //          currentLevel.getMp3Player().pause();

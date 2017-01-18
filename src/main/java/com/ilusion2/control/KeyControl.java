@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * clase que tiene la 
+ * class that maps the keys to use and control objects in the game with keyboard
  * @author pavulzavala
  */
 public class KeyControl implements KeyListener
@@ -19,6 +19,8 @@ public class KeyControl implements KeyListener
     /**
      * constructor 1, este solamente crea el arreglo de NUMKEYS,
      * no setea ningun keyListener
+     * this contructor only create the array of NUMKEYS, dont set 
+     * the key listener
      */
      public KeyControl() 
         { 
@@ -35,12 +37,13 @@ public class KeyControl implements KeyListener
      
     /**
      * constructor 2 , agrega el componente que tiene el keyListener
+     add the component that have the keylistener
      * @param c 
      */
       public KeyControl(Component c) 
         { 
                 this();
-                c.addKeyListener(this); 
+                c.addKeyListener( this ); 
         }/// 
         
         /** 
@@ -88,15 +91,16 @@ public class KeyControl implements KeyListener
     
     
     /**
-     * funcion que regresa true si solo se presiona una sola vez una 
+     * funcion que regresa true si solo se presiona una sola vez una tecla
+     * returns true if solo one key is presed one time
      * @param keyCode
      * @return 
      */
-    public boolean isKeyPress(int keyCode)
+    public boolean isKeyPress( int keyCode )
     {
-      if(isKeyDown(keyCode) && keyPress[keyCode])
+      if( isKeyDown(keyCode ) && keyPress[ keyCode ] )
       {
-      keyPress[keyCode]=false;
+      keyPress[ keyCode ] = false;
       return true;
       }
     return false;
@@ -105,10 +109,11 @@ public class KeyControl implements KeyListener
     
     /**
      * funcion que checa si la tecla presionada esta dentro del rango
+     * check if the pressed key is inside the range of NUMKEYS
      * @param e
      * @return 
      */
-    private boolean checkKeyCode(KeyEvent e)
+    private boolean checkKeyCode( KeyEvent e )
     {
     return (e.getKeyCode() > 0 && e.getKeyCode() < NUMKEYS);
     }//
