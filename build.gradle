@@ -1,32 +1,38 @@
 apply plugin:"java"
+archivesBaseName = "ilusiongame"
+version = "0"
+sourceCompatibility = 1.8
 
 
-archivesBaseName = "ilusion"
-version = "1"
+
+
+task copyToLib( type : Copy ){
+    into "$buildDir/libs/lib"
+    from configurations.runtime
+}
+
+jar
+{
+    dependsOn copyToLib
+    
+    manifest
+    {
+        attributes ( "Main-Class": "xample.Game" ,
+            "Class-Path":"lib/pi4j-core-1.1.jar lib/ilusion2-0.jar\n\
+" )
+    }
+    
+}
+
+
 
 repositories
 {
   mavenCentral()
-  mavenLocal()
+  mavenLocal()     
 }
 
 dependencies 
-{
-
-   // https://mvnrepository.com/artifact/com.pi4j/pi4j-native
-//   compile group: 'com.pi4j', name: 'pi4j-native', version: '1.1'
-
-    // https://mvnrepository.com/artifact/com.pi4j/pi4j-native
-    compile group: 'com.pi4j', name: 'pi4j-core', version: '1.1'
-
-
-    
-    
-//dependencias de log4j
-//compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.5'
-//compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.5'
-    
-//framework de hibernate
-//  compile 'org.hibernate:hibernate-core:5.1.0.Final'
-  
+{   
+    compile project( ":ilusion2" )   
 }

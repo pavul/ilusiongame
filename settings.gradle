@@ -1,0 +1,4 @@
+
+ include( ":ilusion2" )
+
+project ( ":ilusion2" ).projectDir = new File( settingsDir, "../ilusion2" )
