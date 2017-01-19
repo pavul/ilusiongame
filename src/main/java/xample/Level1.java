@@ -178,9 +178,7 @@ public class Level1 extends GameLevel
             
         }
         else //buttons released
-        {
-        
-        }
+        {}
         
     }//
  
