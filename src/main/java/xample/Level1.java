@@ -19,6 +19,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
@@ -120,6 +121,7 @@ public class Level1 extends GameLevel
      
      //se activa el control de GPIO
      
+     //comment this if u want to run in PC, enable to run in raspberry
 //     try
 //     {
 //     this.initGpioGameControl();
@@ -247,7 +249,7 @@ public class Level1 extends GameLevel
     {
         
         //draw blue sky
-        drawBgColor( ( Graphics2D )g , Color.CYAN );
+        drawBgColor( ( Graphics2D )g , Color.BLACK );
         
 
         //draw tiles
@@ -277,6 +279,7 @@ public class Level1 extends GameLevel
     public void updateControl() 
     {
      
+        //keyboard control
             if(keyControl.isKeyDown( KeyEvent.VK_RIGHT ))
             {
                 player.moveSpeedX( 3 );
@@ -292,7 +295,12 @@ public class Level1 extends GameLevel
                 System.out.println("jumping");
                 player.setJump( true );
             } 
-        
+            
+            
+         //mouse control
+//        mouseControl.mouseReleased( MouseEvent.MOUSE_CLICKED );
+         
+         
     }//
 
     @Override
@@ -304,15 +312,21 @@ public class Level1 extends GameLevel
     {
     
          //buttons pressed
+        //if there is BTNSTATELOW it means at least one button was pressed
         if( event.getState().equals( gpioGameControl.getBtnStateLow() ) )
         {
         
+            //if we now that a button was pressed, then we have to look
+            //which is
             if( event.getPin().equals( gpioGameControl.getLeftPad() ) )
             {
              msg = "left pad";
+             player.moveSpeedX( -3 );
             }
             if( event.getPin().equals( gpioGameControl.getRigthPad()) )
-            {msg = "rigth pad";
+            {
+                msg = "rigth pad";
+                player.moveSpeedX( 3 );
             }
             if( event.getPin().equals( gpioGameControl.getUpPad()) )
             {msg = "up pad";

@@ -33,17 +33,26 @@ public class Game
         try 
         {
           //        se crea el room, este contiene a todos los niveles
-        Room room = new Room( "first", levelStack );
+            //this creates the room container that will have all levels and
+            //will set the screen to full screen
+        Room room = new Room( "first", levelStack, true );
         
-        room.setFocusable(true);
+        room.setFocusable( true );
         room.setIgnoreRepaint( true );
-        frame= new JFrame("game xample");
+//        room.setAtFullScreen(true);
+        
+        frame = new JFrame("game xample");
+        
+        
+        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         frame.setUndecorated( true ); //to quit window bar
         frame.add( room );
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         
-        frame.setSize( 480, 320 );
+//        frame.setSize( 480, 320 );
+        frame.setSize( room.getScaledWindowSize() );
+        
         frame.setLocationRelativeTo( null ); //for center
         frame.setVisible(true);
         frame.setResizable(false);
