@@ -8,6 +8,7 @@ package xample;
 import com.ilusion2.config.Config;
 import com.ilusion2.control.GpioGameControl;
 import com.ilusion2.control.GpioGameControlListener;
+import com.ilusion2.control.MouseControl;
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.physics.Collision;
 import com.ilusion2.room.GameState;
@@ -77,7 +78,7 @@ public class Level1 extends GameLevel
      
      
      int [] tileColisionMap = {
-      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -104,7 +105,8 @@ public class Level1 extends GameLevel
      
     
     
-    
+     //this is to handle swipe event one time
+    private int swipe = -1;
     
     
      public Level1(int roomWidth, int roomHeight, int viewWidth, int viewHeight,
@@ -121,7 +123,8 @@ public class Level1 extends GameLevel
      
      //se activa el control de GPIO
      
-     //comment this if u want to run in PC, enable to run in raspberry
+     //comment this if u want to run in PC, 
+     //enable to run in raspberry and to use GPIO pins as control
 //     try
 //     {
 //     this.initGpioGameControl();
@@ -168,7 +171,7 @@ public class Level1 extends GameLevel
                                tileWidth,
                                tileHeigth ).equals( Config.COLISION_NONE ) )
                        {
-                           player.setJump( false );
+//                           player.setJump( false );
                        }//
                        
                        
@@ -255,7 +258,20 @@ public class Level1 extends GameLevel
         //draw tiles
         drawBgTile( ( Graphics2D )g , 
              backgroundTile.getFrames() ,tileMap, columns, rows, tileWidth, tileHeigth );
+     
         
+//        System.out.println(" "+xScale+" - "+yScale);
+//        System.out.println(" "+ (480*xScale)/2 +" - "+ (320 * yScale) );
+        ((Graphics2D)g).setColor(Color.GREEN);
+//        ((Graphics2D)g).  drawRect(0, 0, (int)(480 * xScale)/2  , (int)(320.0 * yScale) );
+
+/**
+ * este sirve para mostrar el area donde se puede presionar a la izquierda, toma los valores sin
+ * escalar porque los escala la matriz, sin embargo para que puedan ser entendidos por el programa
+ * es decir, en el evento del mouse, ahi si se tienen que escalar.
+ */
+         ((Graphics2D)g).  drawRect(0, 0, 240, 320);
+//        0, 0, )
     }
 
     @Override
@@ -284,23 +300,61 @@ public class Level1 extends GameLevel
             {
                 player.moveSpeedX( 3 );
             }
-            else if(keyControl.isKeyDown( KeyEvent.VK_LEFT ))
+            if(keyControl.isKeyDown( KeyEvent.VK_LEFT ))
             {
                 player.moveSpeedX( -3 );
             }
             //this is ISKEYPRESS because it only executes once when
             //the key is presed
-            else if(keyControl.isKeyPress( KeyEvent.VK_SPACE ) )
+            if(keyControl.isKeyPress( KeyEvent.VK_SPACE ) )
             {
                 System.out.println("jumping");
                 player.setJump( true );
             } 
             
             
-         //mouse control
-//        mouseControl.mouseReleased( MouseEvent.MOUSE_CLICKED );
-         
-         
+/**
+ * mouse control 
+ */
+ 
+//area values to check if are pressed on a certain point, must be multiplied by
+//the scale, because it changes completely the pixels on screen 
+if( mouseControl.areaPresed(0, 0, (int)(240.0 * xScale)  , (int)(320.0 * yScale) ) )
+{
+    System.out.println(" ::: pressed mid area ");
+}
+
+
+
+if( mouseControl.spritePressed( player ) )
+{
+    System.out.println(" ::: pressed player "+mouseControl.getPointPressed().getX()
+    +" - "+mouseControl.getPointPressed().getY() );
+}//
+
+
+/**
+ * this is the functionality to create swipes in this case in X axis
+ */
+if( mouseControl.isReleased() )
+{
+    //every time mouse is pressed then, isReleased = true
+    mouseControl.setReleased( false );
+    
+    if( mouseControl.swipeRigth( 100 )  )
+        {
+            swipe = MouseControl.SWIPE_RIGTH;
+            System.out.println("::: swipe Righ done! ");
+        }
+    else if( mouseControl.swipeLeft( 100 )  ) 
+        {
+        //swipe = MouseControl.SWIPE_LEFT;
+        System.out.println("::: swipe left done! ");
+        
+        }
+        
+}//if mouse control released
+
     }//
 
     @Override

@@ -5,6 +5,7 @@
  */
 package xample;
 
+
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.room.Room;
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class Game
           //        se crea el room, este contiene a todos los niveles
             //this creates the room container that will have all levels and
             //will set the screen to full screen
-        Room room = new Room( "first", levelStack, true );
+        Room room = new Room( "first", levelStack, false );
         
         room.setFocusable( true );
         room.setIgnoreRepaint( true );
@@ -50,7 +51,10 @@ public class Game
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         
-//        frame.setSize( 480, 320 );
+        //frame.setSize( 480, 320 );
+
+        //this resize the frame to the correct scaled width and heigth 
+        //of the of teh scaled view port
         frame.setSize( room.getScaledWindowSize() );
         
         frame.setLocationRelativeTo( null ); //for center
