@@ -36,11 +36,10 @@ public class Game
           //        se crea el room, este contiene a todos los niveles
             //this creates the room container that will have all levels and
             //will set the screen to full screen
-        Room room = new Room( "first", levelStack, false );
+        Room room = new Room( "first", levelStack, true );
         
         room.setFocusable( true );
         room.setIgnoreRepaint( true );
-//        room.setAtFullScreen(true);
         
         frame = new JFrame("game xample");
         

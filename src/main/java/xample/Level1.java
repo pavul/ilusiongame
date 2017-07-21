@@ -23,6 +23,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -32,10 +34,16 @@ import javax.imageio.ImageIO;
 public class Level1 extends GameLevel 
 {
     String msg = "";
+    String sideColision = "";
  
     Sprite player;
     
     
+    int playerdegrees;
+    
+    /**
+     * tile settings
+     */
      int columns = 30;
      int rows = 20;
      int tileWidth = 16;
@@ -46,9 +54,14 @@ public class Level1 extends GameLevel
      BufferedImage bufBackground = null;// this.getClass().getResource( "" );
      
      Sprite backgroundTile = null;  //new Sprite( 16,16, bufBackground );
-                                    
      
+     Sprite turret = null;
+     Sprite turretbullet = null;
+   
      
+     /**
+      * background for this level is a tile map
+      */
      int [] tileMap = {
      
      52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
@@ -77,6 +90,10 @@ public class Level1 extends GameLevel
      };
      
      
+     /**
+      * this will sspecify which tiles are solid, or whhose of those
+      * tiles will colide with player/enemies
+      */
      int [] tileColisionMap = {
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -103,11 +120,6 @@ public class Level1 extends GameLevel
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0   
      };
      
-    
-    
-     //this is to handle swipe event one time
-    private int swipe = -1;
-    
     
      public Level1(int roomWidth, int roomHeight, int viewWidth, int viewHeight,
            ArrayList<ImageBackground> imgbg)
@@ -152,27 +164,80 @@ public class Level1 extends GameLevel
                        //put gameplay code here
                        
                        
+                       
+                       turret.move();
+                       
+                       playerdegrees += 1;
+                       
+                       if( playerdegrees>= 360 )playerdegrees = 0;
+                       
+                       turret.setDegrees( playerdegrees );
+                       
                        //acepts key events
                        updateControl();
+                       
+                       
+//                       System.out.println("before projump "+player.getY()+" - - "+player.getJumpValue() );
                        
                        
                        //when jump = true for player object
                        //this function will process all the jump
                        player.processJump();
                        
+//                        System.out.println("after projump "+player.getY()+" - - "+player.getJumpValue() );
+                       
+                       /**
+                        * checking if side Colision is bottom, to neutralize
+                        * gravity so the player wont stuck on corners or other
+                        * colision tiles
+                        */
+                       if( sideColision.equals( Config.COLISION_BOTTOM ) )
+                       {
+                           
+//                          System.out.println("sideColision.equals " + ( player.getY() - player.getJumpValue() ) );
+                        
+                           sideColision ="";
+                           player.setY(  player.getY() - player.getJumpValue() );
+                       
+//                         try 
+//                         {
+//                             Thread.sleep(500);
+//                         } 
+//                         catch( InterruptedException ex )
+//                         {
+//                             Logger.getLogger(Level1.class.getName()).log(Level.SEVERE, null, ex);
+//                         }
+                           
+                       }//
+                       
+                       
                        //this check tile colision against player
                        //basically is puting the solid tiles of the whole level
                        //enemies, usable objects and players may check this colisions
-                       if( !Collision.getInstance().checkColsionTile(
+                       if( Collision.getInstance().checkColsionTile(
                                player,
                                tileColisionMap, 
                                columns,
                                rows, 
                                tileWidth,
-                               tileHeigth ).equals( Config.COLISION_NONE ) )
+                               tileHeigth ).equals( Config.COLISION_BOTTOM ) )
                        {
+                           System.out.println("checkcolisiontile" );
+                           sideColision = Config.COLISION_BOTTOM;
 //                           player.setJump( false );
+ 
+                           //this is to not let player get stuck
+//                           System.out.println("jumpvalue substracted: "+player.getJumpValue());
+//                           player.setY(  player.getY() + player.getJumpValue() );
+                           
+//                                                s1.setY( s1.getY()-1 );
+//                           player.setJumpValue( player.getJumpValue() );
                        }//
+                       
+                       
+                       
+
+                       
                        
                        
                        break;
@@ -205,15 +270,27 @@ public class Level1 extends GameLevel
         
         try
         {
-            player = new Sprite( 21, 32, ImageIO.read( this.getClass().getResource( "/char1.png" ) )  );
+            player = new Sprite( 24, 32, ImageIO.read( this.getClass().getResource( "/char1.png" ) )  );
             
             player.setPosition( 20, 320 - 32 - player.getH() );
             player.setVisible( true );
             
             player.setJumpForce( 5 );
-            player.setJumpValue( 1 );
+            //player.setJumpValue( 1 );
             
         bufBackground =  ImageIO.read( this.getClass().getResource( "/tiles1.png" ) );
+        
+        
+        
+        
+        //for second level
+        turret = new Sprite( 32, 32, ImageIO.read( this.getClass().getResource( "/level2/turret.png" ) ) );
+        turret.setPosition(200, 200);
+        
+        
+        turretbullet = new Sprite( 8, 4, ImageIO.read( this.getClass().getResource( "/level2/turretbullet.png" ) ) );
+        turretbullet.setPosition(-100, 0);
+        
         }
         catch( IOException ioe )
         {
@@ -280,16 +357,23 @@ public class Level1 extends GameLevel
         
         player.draw( (Graphics2D)g );
         
+        
+        
+        //player.drawRotate( (Graphics2D)g , playerdegrees );
+        
+
+        turret.drawRotate( (Graphics2D)g  );
+        
     }
 
     @Override
     public void renderHUD(Graphics g) 
     {
         
-        g.setColor( Color.BLACK );
+        g.setColor( Color.WHITE );
         g.drawString( msg, 20, 20 );
-        
-    }
+       
+    }//
 
     @Override
     public void updateControl() 
@@ -343,7 +427,7 @@ if( mouseControl.isReleased() )
     
     if( mouseControl.swipeRigth( 100 )  )
         {
-            swipe = MouseControl.SWIPE_RIGTH;
+            
             System.out.println("::: swipe Righ done! ");
         }
     else if( mouseControl.swipeLeft( 100 )  ) 
@@ -353,7 +437,35 @@ if( mouseControl.isReleased() )
         
         }
         
+    
+    
+    //set new angle of turret every time mouse button is released
+    turret.calculateAngle(
+             (int)(mouseControl.getPointReleased().getX()/xScale) ,
+             (int)(mouseControl.getPointReleased().getY()/xScale) );
+    
+    
+
+//to move turret toward mouse point
+//turret.moveTo(
+//        (int)mouseControl.getPointReleased().getX(), 
+//        (int)mouseControl.getPointReleased().getY(), 3 );
+
+    
+    
 }//if mouse control released
+
+
+
+if(mouseControl.isPressed())
+{
+
+    turret.calculateAngle(
+            (int)mouseControl.getPointPressed().getX(), 
+            (int)mouseControl.getPointPressed().getY() );
+    
+}//is mouse button is pressed
+
 
     }//
 

@@ -11,6 +11,11 @@ task copyToLib( type : Copy ){
     from configurations.runtime
 }
 
+
+/*
+ * this task creates the .jar and stablish the main class for that jar
+ * and this will be always executed after 'copyToLib jar'
+ * */
 jar
 {
     dependsOn copyToLib
@@ -25,27 +30,40 @@ jar
 }
 
 
-
+/**
+ * repositories where this project will look some dependencies
+ */
 repositories
 {
   mavenCentral()
   mavenLocal()     
 }
 
+
+
+/*
+ * every time ilusionGame is compiled then ilusion2 dependency will be 
+ * compiled first, this ilusion2 is defined on settings.gradle
+ * */
 dependencies 
 {   
     compile project( ":ilusion2" )   
 }
 
-//this task ejecute the jar every time each build
-task runJar( dependsOn:jar ){
-    println("task jar");
-  javaexec { 
-    main="-jar";
-    args = [
-            "build/libs/ilusiongame-0.jar",
-            "sudo"
-           ]
-  } 
-}
+
+
+/**
+ * this method have to be comented if the build is gonna be used
+ * on windows, because this launch the jar in linux terminal like
+*/
+////this task ejecute the jar every time each build
+//task runJar( dependsOn:jar ){
+//    println("task jar");
+//  javaexec{ 
+//    main="-jar";
+//    args = [
+//            "build/libs/ilusiongame-0.jar"
+//           ]
+//  } 
+//}
 
