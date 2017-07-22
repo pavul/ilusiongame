@@ -39,7 +39,7 @@ public class Level1 extends GameLevel
     Sprite player;
     
     
-    int playerdegrees;
+  
     
     /**
      * tile settings
@@ -55,8 +55,7 @@ public class Level1 extends GameLevel
      
      Sprite backgroundTile = null;  //new Sprite( 16,16, bufBackground );
      
-     Sprite turret = null;
-     Sprite turretbullet = null;
+    
    
      
      /**
@@ -165,13 +164,7 @@ public class Level1 extends GameLevel
                        
                        
                        
-                       turret.move();
-                       
-                       playerdegrees += 1;
-                       
-                       if( playerdegrees>= 360 )playerdegrees = 0;
-                       
-                       turret.setDegrees( playerdegrees );
+                     
                        
                        //acepts key events
                        updateControl();
@@ -280,17 +273,6 @@ public class Level1 extends GameLevel
             
         bufBackground =  ImageIO.read( this.getClass().getResource( "/tiles1.png" ) );
         
-        
-        
-        
-        //for second level
-        turret = new Sprite( 32, 32, ImageIO.read( this.getClass().getResource( "/level2/turret.png" ) ) );
-        turret.setPosition(200, 200);
-        
-        
-        turretbullet = new Sprite( 8, 4, ImageIO.read( this.getClass().getResource( "/level2/turretbullet.png" ) ) );
-        turretbullet.setPosition(-100, 0);
-        
         }
         catch( IOException ioe )
         {
@@ -362,7 +344,7 @@ public class Level1 extends GameLevel
         //player.drawRotate( (Graphics2D)g , playerdegrees );
         
 
-        turret.drawRotate( (Graphics2D)g  );
+        
         
     }
 
@@ -439,19 +421,7 @@ if( mouseControl.isReleased() )
         
     
     
-    //set new angle of turret every time mouse button is released
-    turret.calculateAngle(
-             (int)(mouseControl.getPointReleased().getX()/xScale) ,
-             (int)(mouseControl.getPointReleased().getY()/xScale) );
-    
-    
-
-//to move turret toward mouse point
-//turret.moveTo(
-//        (int)mouseControl.getPointReleased().getX(), 
-//        (int)mouseControl.getPointReleased().getY(), 3 );
-
-    
+  getRoom().loadLvl( "rotationXample" );
     
 }//if mouse control released
 
@@ -460,9 +430,9 @@ if( mouseControl.isReleased() )
 if(mouseControl.isPressed())
 {
 
-    turret.calculateAngle(
-            (int)mouseControl.getPointPressed().getX(), 
-            (int)mouseControl.getPointPressed().getY() );
+//    turret.calculateAngle(
+//            (int)mouseControl.getPointPressed().getX(), 
+//            (int)mouseControl.getPointPressed().getY() );
     
 }//is mouse button is pressed
 

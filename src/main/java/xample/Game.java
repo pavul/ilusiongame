@@ -29,14 +29,17 @@ public class Game
 
         //se agrega el nivel al stack de niveles
         Map<String, GameLevel> levelStack =  new HashMap<>();
-        levelStack.put("first", new Level1( 480, 320, 480, 320, null));
+        levelStack.put("first", new Level1( 480, 320, 480, 320, null) );
+        levelStack.put("rotationXample", new RotationXample(480, 320, 480, 320, null) );
+        levelStack.put("nearSpriteXample", new NearSpriteXample(480, 320, 480, 320, null) );
+        
         
         try 
         {
           //        se crea el room, este contiene a todos los niveles
             //this creates the room container that will have all levels and
             //will set the screen to full screen
-        Room room = new Room( "first", levelStack, true );
+        Room room = new Room( "first", levelStack, false );
         
         room.setFocusable( true );
         room.setIgnoreRepaint( true );
