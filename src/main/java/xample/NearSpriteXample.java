@@ -66,6 +66,8 @@ public class NearSpriteXample extends GameLevel
             
             
             mouseControl.setReleased(false);
+            
+            room.loadLvl( "mazeXample" );
         }//
         
         
