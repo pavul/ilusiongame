@@ -29,10 +29,28 @@ public class Game
 
         //se agrega el nivel al stack de niveles
         Map<String, GameLevel> levelStack =  new HashMap<>();
+        
+        
+        
+        GameLevel level1=null;
+        GameLevel RotationXample=null;
+        GameLevel NearSpriteXample=null;
+        GameLevel MazeXample=null;
+        
+        
+        //old approach
+        //@TODO check how to make lazy init for levels, there is no poin to 
+        //have all level created
         levelStack.put("first", new Level1( 480, 320, 480, 320, null) );
         levelStack.put("rotationXample", new RotationXample( 480, 320, 480, 320, null) );
         levelStack.put("nearSpriteXample", new NearSpriteXample( 480, 320, 480, 320, null) );
-         levelStack.put("mazeXample", new MazeXample( 480, 320, 480, 320, null) );
+        levelStack.put("mazeXample", new MazeXample( 480, 320, 480, 320, null) );
+
+         
+//         levelStack.put("first", level1 );
+//         levelStack.put("rotationXample", RotationXample );
+//         levelStack.put("nearSpriteXample", NearSpriteXample );
+//         levelStack.put("mazeXample", MazeXample=null );
         
         try 
         {

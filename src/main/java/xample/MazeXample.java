@@ -76,7 +76,7 @@ public class MazeXample extends GameLevel
          
          this.colisionTileMaps.add( colmap );
 //         room.setFps( 30 );
-         
+         this.setPersistent(true);
      }//
     
     
@@ -86,7 +86,7 @@ public class MazeXample extends GameLevel
     }
     
     @Override
-    public void update()
+    public synchronized void update()
     {
     
         //this will make the player update the current
@@ -211,6 +211,16 @@ public class MazeXample extends GameLevel
     @Override
     public void updateControl() 
     {
+        
+        if( mouseControl.isReleased() )
+        {
+            
+            System.out.println("xample.MazeXample.updateControl()");
+            mouseControl.setReleased(false);
+            
+            room.loadLvl( "first" );
+        }//
+              
     
         if(keyControl.isKeyDown(KeyEvent.VK_RIGHT))
             {
@@ -236,6 +246,10 @@ public class MazeXample extends GameLevel
 //                if(player.getY()+player.getH() > cam.getOffsetY()  +cam.getMarginBottom())
 //                { cam.moveY(- 3); }  
             } 
+        
+        
+   
+        
         
         
     }//
