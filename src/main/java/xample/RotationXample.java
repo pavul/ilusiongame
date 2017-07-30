@@ -6,7 +6,7 @@
 package xample;
 
 import com.ilusion2.level.GameLevel;
-import com.ilusion2.room.ImageBackground;
+import com.ilusion2.gamemanager.ImageBackground;
 import com.ilusion2.sprite.Sprite;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import java.awt.Color;

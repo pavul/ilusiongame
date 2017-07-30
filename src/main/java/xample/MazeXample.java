@@ -7,7 +7,7 @@ package xample;
 
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.physics.Collision;
-import com.ilusion2.room.ImageBackground;
+import com.ilusion2.gamemanager.ImageBackground;
 import com.ilusion2.sprite.AnimationState;
 import com.ilusion2.sprite.Sprite;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
@@ -89,9 +89,6 @@ public class MazeXample extends GameLevel
     public synchronized void update()
     {
     
-        //this will make the player update the current
-        //frames of animation state
-        player.updateSubanimation();
         
         // will move the player with the controls
         updateControl();
@@ -123,10 +120,10 @@ public class MazeXample extends GameLevel
         player.setVisible( true );
 
             ///save the animations ( each frame ) on diferent arrays
-            int[] right ={9,10,11};
-            int[] left ={0,1,2};
-            int[] up ={3,4,5};
-            int[] down ={6,7,8};
+            int[] right = {9,10,11,10};
+            int[] left = {0,1,2,1};
+            int[] up = {3,4,5,4};
+            int[] down = {6,7,8,7};
             
             //then each animation will be mapped to an ANIMATIONSTATE
             //if player press left key on keyboard, AnimationState
@@ -136,6 +133,9 @@ public class MazeXample extends GameLevel
             subAnimationStack.put(AnimationState.MOVELEFT, left);
             subAnimationStack.put(AnimationState.MOVEUP, up);
             subAnimationStack.put(AnimationState.MOVEDOWN, down);
+            
+            player.setAnimationSpeed( 0 );
+           player.setAnimationSpeedLimit( 40 );
             
             //finalmente se agrega el stack de animaciones al sprite
             player.setSubAnimationStack(subAnimationStack);
@@ -155,7 +155,9 @@ public class MazeXample extends GameLevel
         
             try 
             {
-                bg = new ImageBackground(ImageIO.read( this.getClass().getResource( "/mazegame/mazemap.png" ) ) , 0, 0 );
+                bg = new ImageBackground(
+                        ImageIO.read( 
+                                this.getClass().getResource( "/mazegame/mazemap.png" ) ) , 0, 0 );
            
             }
             catch (IOException ex)
@@ -185,10 +187,7 @@ public class MazeXample extends GameLevel
     @Override
     public void renderBackground(Graphics g) 
     {
-    
         drawBgImage( (Graphics2D )g , bg.getImg()  , bg.getX(), bg.getY() );
-        
-//        drawBgColor( ( Graphics2D )g , Color.CYAN );
         
     }//
 
@@ -196,10 +195,11 @@ public class MazeXample extends GameLevel
     public void renderForeground(Graphics g) 
     {
     
+//        player.draw( (Graphics2D )g );
         
-        player.draw( (Graphics2D )g );
-        
-        
+        //this will make the player update the current
+        //frames of animation state
+        player.drawSubanimation( (Graphics2D )g );
         
     }//
 
@@ -215,7 +215,7 @@ public class MazeXample extends GameLevel
         if( mouseControl.isReleased() )
         {
             
-            System.out.println("xample.MazeXample.updateControl()");
+            //System.out.println("xample.MazeXample.updateControl()");
             mouseControl.setReleased(false);
             
             room.loadLvl( "first" );
@@ -224,16 +224,21 @@ public class MazeXample extends GameLevel
     
         if(keyControl.isKeyDown(KeyEvent.VK_RIGHT))
             {
+                
+                if( player.getCurrentAnimationState()!= AnimationState.MOVERIGHT )
                 player.setSubanimation(AnimationState.MOVERIGHT);
+                
                 player.move(2,0);
             }
             else if(keyControl.isKeyDown(KeyEvent.VK_LEFT))
             {
+                if( player.getCurrentAnimationState()!= AnimationState.MOVELEFT )
                 player.setSubanimation(AnimationState.MOVELEFT);
                 player.move(-2, 0);
             } 
             else if(keyControl.isKeyDown(KeyEvent.VK_UP))
             {
+                if( player.getCurrentAnimationState()!= AnimationState.MOVEUP )
                 player.setSubanimation(AnimationState.MOVEUP);
                 player.move(0, -2);
 //                 if(player.getY() < cam.getOffsetY()  +cam.getMarginTop())
@@ -241,6 +246,7 @@ public class MazeXample extends GameLevel
             } 
             else if(keyControl.isKeyDown(KeyEvent.VK_DOWN))
             {
+                if( player.getCurrentAnimationState()!= AnimationState.MOVEDOWN )
                 player.setSubanimation(AnimationState.MOVEDOWN);
                 player.move(0, 2);
 //                if(player.getY()+player.getH() > cam.getOffsetY()  +cam.getMarginBottom())

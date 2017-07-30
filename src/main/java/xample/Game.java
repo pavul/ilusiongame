@@ -7,7 +7,7 @@ package xample;
 
 
 import com.ilusion2.level.GameLevel;
-import com.ilusion2.room.Room;
+import com.ilusion2.gamemanager.GameManager;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
@@ -57,16 +57,16 @@ public class Game
             //se crea el room, este contiene a todos los niveles
             //this creates the room container that will have all levels and
             //will set the screen to full screen
-        Room room = new Room( "first", levelStack, true );
+        GameManager room = new GameManager( "first", levelStack, true );
         
         room.setFocusable( true );
-        room.setIgnoreRepaint( true );
+//        room.setIgnoreRepaint( true );
         
         frame = new JFrame("game xample");
         
         
         //frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        frame.setUndecorated( true ); //to quit window bar
+        frame.setUndecorated( false ); //to quit window bar
         frame.add( room );
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();

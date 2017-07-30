@@ -11,8 +11,8 @@ import com.ilusion2.control.GpioGameControlListener;
 import com.ilusion2.control.MouseControl;
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.physics.Collision;
-import com.ilusion2.room.GameState;
-import com.ilusion2.room.ImageBackground;
+import com.ilusion2.gamemanager.GameState;
+import com.ilusion2.gamemanager.ImageBackground;
 import com.ilusion2.sprite.Sprite;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import java.awt.Color;
@@ -38,6 +38,8 @@ public class Level1 extends GameLevel
  
     Sprite player;
     
+    float potency; 
+    int degrees;
     
   
     
@@ -162,10 +164,6 @@ public class Level1 extends GameLevel
                    case PLAYING:
                        //put gameplay code here
                        
-                       
-                       
-                     
-                       
                        //acepts key events
                        updateControl();
                        
@@ -184,22 +182,30 @@ public class Level1 extends GameLevel
                         * gravity so the player wont stuck on corners or other
                         * colision tiles
                         */
-                       if( sideColision.equals( Config.COLISION_BOTTOM ) )
+//                       if( sideColision.equals( Config.COLISION_BOTTOM ) )
+//                       {
+//                           
+////                          System.out.println("sideColision.equals " + ( player.getY() - player.getJumpValue() ) );
+//                        
+//                           sideColision ="";
+//                           player.setY(  player.getY() - player.getJumpValue() );
+//                       
+////                         try 
+////                         {
+////                             Thread.sleep(500);
+////                         } 
+////                         catch( InterruptedException ex )
+////                         {
+////                             Logger.getLogger(Level1.class.getName()).log(Level.SEVERE, null, ex);
+////                         }
+//                           
+//                       }//
+                       
+                       
+                       //check here if the player is not above a platform
+                       if( !player.isJump() )
                        {
                            
-//                          System.out.println("sideColision.equals " + ( player.getY() - player.getJumpValue() ) );
-                        
-                           sideColision ="";
-                           player.setY(  player.getY() - player.getJumpValue() );
-                       
-//                         try 
-//                         {
-//                             Thread.sleep(500);
-//                         } 
-//                         catch( InterruptedException ex )
-//                         {
-//                             Logger.getLogger(Level1.class.getName()).log(Level.SEVERE, null, ex);
-//                         }
                            
                        }//
                        
@@ -208,18 +214,18 @@ public class Level1 extends GameLevel
                        //basically is puting the solid tiles of the whole level
                        //enemies, usable objects and players may check this colisions
                        if( Collision.getInstance().checkColsionTile(
-                               player,
-                               tileColisionMap, 
-                               columns,
-                               rows, 
-                               tileWidth,
-                               tileHeigth ).equals( Config.COLISION_BOTTOM ) )
+                       player,
+                       tileColisionMap, 
+                       columns,
+                       rows, 
+                       tileWidth,
+                       tileHeigth ).equals( Config.COLISION_BOTTOM ) )
                        {
-                           System.out.println("checkcolisiontile" );
-                           sideColision = Config.COLISION_BOTTOM;
-//                           player.setJump( false );
+//                           System.out.println("checkcolisiontile" );
+//                           sideColision = Config.COLISION_BOTTOM;
+                             player.setJump( false );
  
-                           //this is to not let player get stuck
+                             //this is to not let player get stuck
 //                           System.out.println("jumpvalue substracted: "+player.getJumpValue());
 //                           player.setY(  player.getY() + player.getJumpValue() );
                            
@@ -269,6 +275,7 @@ public class Level1 extends GameLevel
             player.setVisible( true );
             
             player.setJumpForce( 5 );
+            
             //player.setJumpValue( 1 );
             
         bufBackground =  ImageIO.read( this.getClass().getResource( "/tiles1.png" ) );
@@ -339,11 +346,12 @@ public class Level1 extends GameLevel
         
         player.draw( (Graphics2D)g );
         
-        
-        
+        player//.drawBalisticTrayectory((Graphics2D)g );
+        .drawBalisticTrayectory( (Graphics2D)g ,
+            potency, 
+            degrees,
+            20);
         //player.drawRotate( (Graphics2D)g , playerdegrees );
-        
-
         
         
     }
@@ -353,7 +361,10 @@ public class Level1 extends GameLevel
     {
         
         g.setColor( Color.WHITE );
-        g.drawString( msg, 20, 20 );
+        g.drawString( "deg: "+degrees+" pot: "+potency , 20, 20 );
+        
+        
+        
        
     }//
 
@@ -364,10 +375,14 @@ public class Level1 extends GameLevel
         //keyboard control
             if(keyControl.isKeyDown( KeyEvent.VK_RIGHT ))
             {
+                
+//                player.setDegrees( (int) player.getDegrees()+1);
+                
                 player.moveSpeedX( 3 );
             }
             if(keyControl.isKeyDown( KeyEvent.VK_LEFT ))
             {
+//                player.setDegrees( (int) player.getDegrees()-1);
                 player.moveSpeedX( -3 );
             }
             //this is ISKEYPRESS because it only executes once when
@@ -377,6 +392,28 @@ public class Level1 extends GameLevel
                 System.out.println("jumping");
                 player.setJump( true );
             } 
+            
+            
+            if(keyControl.isKeyPress( KeyEvent.VK_1 ) )
+            {
+                potency +=1;
+            }
+            
+            if(keyControl.isKeyPress( KeyEvent.VK_2 ) )
+            {
+                degrees +=1; if( degrees >=360 )degrees = 1;
+            }
+            
+            if(keyControl.isKeyPress( KeyEvent.VK_3 ) )
+            {
+                potency -=1;
+            }
+            
+            if(keyControl.isKeyPress( KeyEvent.VK_4 ) )
+            {
+                degrees -=1; if( degrees <= 0 )degrees = 360;
+            }
+            
             
             
 /**
@@ -491,5 +528,6 @@ if(mouseControl.isPressed())
         {}
         
     }//
+
  
 }//class
