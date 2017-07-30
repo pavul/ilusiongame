@@ -42,7 +42,7 @@ public class RotationXample extends GameLevel
              int viewHeight,
              ArrayList<ImageBackground> imgbg)
      {
-         super( roomWidth, roomHeight,viewWidth, viewHeight, imgbg );
+         super( roomWidth, roomHeight,viewWidth, viewHeight);
      }
     
      
@@ -151,13 +151,13 @@ public class RotationXample extends GameLevel
     }
 
     @Override
-    public void renderBackground(Graphics g) 
+    public void renderBackground(Graphics2D g2) 
     {
-        drawBgColor( ( Graphics2D )g , Color.CYAN );
+        drawBgColor( g2 , Color.CYAN );
     }
 
     @Override
-    public void renderForeground(Graphics g) 
+    public void renderForeground(Graphics2D g2) 
     {
    
         System.out.println(" T3 deg: "+turret3.getDegrees());
@@ -165,25 +165,25 @@ public class RotationXample extends GameLevel
         
         
     //this code rotate turret3 
-    turret3.drawRotate( (Graphics2D)g  );
-    //turret3.drawRotate( (Graphics2D)g , degrees );
+    turret3.drawRotate( g2  );
+    //turret3.drawRotate( g2 , degrees );
     
     
 
     //this draw turret2 but is obiting 
-    turret2.draw((Graphics2D)g );
+    turret2.draw(g2 );
     
      
-    turret.drawRotate( (Graphics2D)g );
+    turret.drawRotate( g2 );
     
     }
 
     @Override
-    public void renderHUD(Graphics g) 
+    public void renderHUD(Graphics2D g2) 
     {
      
-    ((Graphics2D)g).setColor( Color.BLACK );
-    ((Graphics2D)g).drawString( "Rotation Degrees "+degrees , 20, 20);
+    (g2).setColor( Color.BLACK );
+    (g2).drawString( "Rotation Degrees "+degrees , 20, 20);
         
     }//
 

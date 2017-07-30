@@ -39,7 +39,7 @@ public class NearSpriteXample extends GameLevel
              int viewHeight,
              ArrayList<ImageBackground> imgbg)
      {
-         super( roomWidth, roomHeight,viewWidth, viewHeight, imgbg );
+         super( roomWidth, roomHeight,viewWidth, viewHeight);
      }//
         
         
@@ -148,29 +148,29 @@ public class NearSpriteXample extends GameLevel
     }
 
     @Override
-    public void renderBackground(Graphics g) 
+    public void renderBackground(Graphics2D g2) 
     {
-    drawBgColor( ( Graphics2D )g , Color.CYAN );
+    drawBgColor( g2 , Color.CYAN );
     }
 
     @Override
-    public void renderForeground(Graphics g)
+    public void renderForeground(Graphics2D g2) 
     {
      //draw sprite
-        player.draw( ( Graphics2D )g );
+        player.draw( g2 );
         
         
         //draw turrets
         for( Sprite spr: spritePool)
-            spr.draw( ( Graphics2D )g );
+            spr.draw( g2 );
     }
 
     @Override
-    public void renderHUD(Graphics g) 
+    public void renderHUD(Graphics2D g2) 
     {
     
-        ((Graphics2D)g).setColor( Color.BLACK );
-        ((Graphics2D)g).drawString( "click to reset turret position " , 50, 20);
+        ( g2 ).setColor( Color.BLACK );
+        ( g2 ).drawString( "click to reset turret position " , 50, 20);
         
     }//
 

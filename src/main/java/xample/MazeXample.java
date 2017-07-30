@@ -72,7 +72,7 @@ public class MazeXample extends GameLevel
              int viewHeight,
              ArrayList<ImageBackground> imgbg)
      {
-         super( roomWidth, roomHeight,viewWidth, viewHeight, imgbg );
+         super( roomWidth, roomHeight,viewWidth, viewHeight );
          
          this.colisionTileMaps.add( colmap );
 //         room.setFps( 30 );
@@ -185,26 +185,28 @@ public class MazeXample extends GameLevel
     }
 
     @Override
-    public void renderBackground(Graphics g) 
+    public void renderBackground(Graphics2D g2) 
     {
-        drawBgImage( (Graphics2D )g , bg.getImg()  , bg.getX(), bg.getY() );
+//        Color aa = new Color(roomWidth, roomWidth, roomWidth, roomWidth);
+        drawBgImage( g2, bg.getImg()  , bg.getX(), bg.getY() );
         
     }//
 
     @Override
-    public void renderForeground(Graphics g) 
+    public void renderForeground(Graphics2D g2) 
     {
     
 //        player.draw( (Graphics2D )g );
         
         //this will make the player update the current
         //frames of animation state
-        player.drawSubanimation( (Graphics2D )g );
+        player.drawSubanimation( g2 );
         
     }//
 
     @Override
-    public void renderHUD(Graphics g) {
+    public void renderHUD(Graphics2D g2)
+    {
     
     }
 

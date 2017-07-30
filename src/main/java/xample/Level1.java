@@ -126,7 +126,7 @@ public class Level1 extends GameLevel
            ArrayList<ImageBackground> imgbg)
      {
      
-         super( roomWidth, roomHeight,viewWidth, viewHeight, imgbg );
+         super( roomWidth, roomHeight,viewWidth, viewHeight );
       
      msg = "push any button";     
      
@@ -314,21 +314,21 @@ public class Level1 extends GameLevel
     }
 
     @Override
-    public void renderBackground(Graphics g) 
+    public void renderBackground(Graphics2D g2) 
     {
         
         //draw blue sky
-        drawBgColor( ( Graphics2D )g , Color.BLACK );
+        drawBgColor( g2, Color.BLACK );
         
 
         //draw tiles
-        drawBgTile( ( Graphics2D )g , 
+        drawBgTile( g2 , 
              backgroundTile.getFrames() ,tileMap, columns, rows, tileWidth, tileHeigth );
      
         
 //        System.out.println(" "+xScale+" - "+yScale);
 //        System.out.println(" "+ (480*xScale)/2 +" - "+ (320 * yScale) );
-        ((Graphics2D)g).setColor(Color.GREEN);
+        ( g2 ).setColor(Color.GREEN);
 //        ((Graphics2D)g).  drawRect(0, 0, (int)(480 * xScale)/2  , (int)(320.0 * yScale) );
 
 /**
@@ -336,18 +336,18 @@ public class Level1 extends GameLevel
  * escalar porque los escala la matriz, sin embargo para que puedan ser entendidos por el programa
  * es decir, en el evento del mouse, ahi si se tienen que escalar.
  */
-         ((Graphics2D)g).  drawRect(0, 0, 240, 320);
+         ( g2 ).  drawRect(0, 0, 240, 320);
 //        0, 0, )
     }
 
     @Override
-    public void renderForeground(Graphics g) 
+    public void renderForeground(Graphics2D g2) 
     {
         
-        player.draw( (Graphics2D)g );
+        player.draw( g2 );
         
         player//.drawBalisticTrayectory((Graphics2D)g );
-        .drawBalisticTrayectory( (Graphics2D)g ,
+        .drawBalisticTrayectory( g2 ,
             potency, 
             degrees,
             20);
@@ -357,15 +357,12 @@ public class Level1 extends GameLevel
     }
 
     @Override
-    public void renderHUD(Graphics g) 
+    public void renderHUD(Graphics2D g2 )
     {
         
-        g.setColor( Color.WHITE );
-        g.drawString( "deg: "+degrees+" pot: "+potency , 20, 20 );
+        g2.setColor( Color.WHITE );
+        g2.drawString( "deg: "+degrees+" pot: "+potency , 20, 20 );
         
-        
-        
-       
     }//
 
     @Override
