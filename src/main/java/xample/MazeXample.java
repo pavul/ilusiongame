@@ -200,7 +200,7 @@ public class MazeXample extends GameLevel
         
         //this will make the player update the current
         //frames of animation state
-        player.drawSubanimation( g2 );
+        player.drawSubanimation( g2 ,  true );
         
     }//
 
