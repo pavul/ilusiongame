@@ -4,20 +4,18 @@
  * and open the template in the editor.
  */
 
-package xample;
+package demo1;
 
-import com.ilusion2.gamemanager.ImageBackground;
 import com.ilusion2.level.GameLevel;
+import com.ilusion2.util.Util;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
-import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 
 /**
  * this class is used to create levels for a game, if your
@@ -25,23 +23,18 @@ import javax.imageio.ImageIO;
  * then you will have to create 11 GameLevels
  * @author pavulzavala
  */
-public class SpashScreen extends GameLevel
+public class Title extends GameLevel
 {
 
-
-    ImageBackground bgSplash;
     
-    int step;
-    
-    
-    public SpashScreen(int roomWidth, int roomHeight, int viewWidth, int viewHeight)
-    {
-        super( roomWidth, roomHeight,viewWidth, viewHeight);
-        
-    }//
+    Font font;
     
     
     
+     public Title(int roomWidth, int roomHeight, int viewWidth, int viewHeight )
+     {
+         super( roomWidth, roomHeight,viewWidth, viewHeight );
+     }
     
     /**
      * this is the main method to update the game, this framework 
@@ -54,26 +47,7 @@ public class SpashScreen extends GameLevel
     public void update() 
     {
         
-        updateControl();
-        
-        step ++;
-        if( step >= 20 )
-        {
-        step = 0;
-
-        System.out.println("alpha value: "+alpha);
-        
-        this.alpha += 0.05f;      
-        if( alpha >= 1f )alpha = 1f; 
-        
-        }//
-        
-   
-        
-        
-
-        
-    }//update
+    }//
 
     
      /**
@@ -92,21 +66,6 @@ public class SpashScreen extends GameLevel
     @Override
     public boolean initBg() 
     {
-        
-         try 
-            {
-                bgSplash = new ImageBackground(
-                        ImageIO.read( 
-//                                this.getClass().getResource( "/splashxample/dukelogo.gif" ) ) , 0, 0 );
-                                this.getClass().getResource( "/char1.png" ) ) , 0, 0 );
-           
-            }
-            catch (IOException ex)
-            {
-                Logger.getLogger(MazeXample.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
-        
         return false;
     }
 
@@ -140,7 +99,16 @@ public class SpashScreen extends GameLevel
     @Override
     public boolean initData() 
     {
-//        alpha = 0.8f;
+        
+        try 
+        {
+            font = Util.getFont( this.getClass() , "PressStart2p.ttf", 12 );
+            
+        } 
+        catch ( IOException | FontFormatException ex )
+        {
+            Logger.getLogger( Title.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return false;
     }
@@ -155,35 +123,10 @@ public class SpashScreen extends GameLevel
      * @param g 
      */
     @Override
-    public void renderBackground(Graphics2D g2) 
+    public void renderBackground(Graphics2D g) 
     {
-     
-        
-         drawBgColor( g2, Color.GREEN );
        
-        
-        //alpha = 1f;
-        
-        this.alphaComposite =
-                AlphaComposite.getInstance( 
-                        AlphaComposite.SRC_OVER,
-//                        AlphaComposite.SRC_OUT,
-                        this.alpha );
-        
-     
-        
-        ( g2 ).setComposite( alphaComposite );
-        
-       drawBgColor( g2, Color.YELLOW,0, 0, 200,200 );
-        
-        
-        drawBgImage( 
-                g2,
-                bgSplash.getImg(),
-                100,
-                100);
-        
-        
+        drawBgColor( g, Color.black );
         
         
     }//
@@ -199,10 +142,23 @@ public class SpashScreen extends GameLevel
      * @param g 
      */
     @Override
-    public void renderForeground(Graphics2D g2) 
+    public void renderForeground(Graphics2D g) 
     {
         
-    }
+//        System.out.println("font: "+font.getName() );
+        
+        g.setColor( Color.white );
+        g.setFont( font );
+        
+        g.drawString( "Ilusion2 Game Library", 40, 20);
+        
+        
+        g.setColor( Color.RED );
+        g.setFont( font );
+        
+        g.drawString( "Ilusion2 Game Library", 40, 100);
+        
+    }//
 
     /**
      * use this method to render all HUD stuff
@@ -213,7 +169,7 @@ public class SpashScreen extends GameLevel
      * @param g 
      */
     @Override
-    public void renderHUD(Graphics2D g2) 
+    public void renderHUD(Graphics2D g) 
     {
         
     }
@@ -226,13 +182,7 @@ public class SpashScreen extends GameLevel
     public void updateControl() 
     {
         
-       if( mouseControl.isReleased() )
-       {
-           Level1 lvl = new Level1( 480, 320, 480, 320, null);
-           room.loadLvl( lvl );
-       }
-        
-    }//
+    }
 
     /**
      * if your game will have connection via socket or througth

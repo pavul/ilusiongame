@@ -6,10 +6,7 @@
 package xample;
 
 
-import com.ilusion2.level.GameLevel;
 import com.ilusion2.gamemanager.GameManager;
-import java.util.HashMap;
-import java.util.Map;
 import javax.swing.JFrame;
 
 /**
@@ -26,26 +23,6 @@ public class Game2
     public static void main(String []args)
     {
   
-
-        //se agrega el nivel al stack de niveles
-//        Map<String, GameLevel> levelStack =  new HashMap<>();
-//        
-//        
-//        
-//        GameLevel level1=null;
-//        GameLevel RotationXample=null;
-//        GameLevel NearSpriteXample=null;
-//        GameLevel MazeXample=null;
-        
-        
-        //old approach
-        //@TODO check how to make lazy init for levels, there is no poin to 
-        //have all level created
-//        levelStack.put("first", new Level1( 480, 320, 480, 320, null) );
-//        levelStack.put("rotationXample", new RotationXample( 480, 320, 480, 320, null) );
-//        levelStack.put("nearSpriteXample", new NearSpriteXample( 480, 320, 480, 320, null) );
-//        levelStack.put("mazeXample", new MazeXample( 480, 320, 480, 320, null) );
-
         try 
         {
             
@@ -57,8 +34,8 @@ public class Game2
             //will set the screen to full screen
             GameManager room = new GameManager( spash , !true );
         
-        room.setFocusable( true );
-//        room.setIgnoreRepaint( true );
+            room.setFocusable( true );
+            //room.setIgnoreRepaint( true );
         
         frame = new JFrame("game xample");
         
@@ -80,9 +57,9 @@ public class Game2
         frame.setResizable(false);
         
 
-//        //este va al final, porque se debe de renderizar a lo ultim
-room.setFps( 30 );
-room.gameStart( );  
+        //este va al final, porque se debe de renderizar a lo ultim
+        room.setFps( 30 );
+        room.gameStart( );  
         }
         catch (Exception e)
         {
