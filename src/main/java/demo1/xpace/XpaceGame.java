@@ -4,19 +4,13 @@
  * and open the template in the editor.
  */
 
-package demo1;
+package demo1.xpace;
 
 import com.ilusion2.level.GameLevel;
-import com.ilusion2.util.Util;
+import com.ilusion2.sprite.Sprite;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * this class is used to create levels for a game, if your
@@ -24,21 +18,33 @@ import java.util.logging.Logger;
  * then you will have to create 11 GameLevels
  * @author pavulzavala
  */
-public class Title extends GameLevel
+public class XpaceGame extends GameLevel
 {
 
+    /**
+     * spacial ship of the game (player)
+     */
+    Sprite ship;
     
-    Font font;
+    /**
+     * enemies of the game
+     */
+    Sprite ene1, ene2, ene3, ene4, ene5, ene6;
     
-    final int X_CURSOR = 80;
-          int yCursor = 100;
+    /**
+     * bullet and misiles
+     */
+    Sprite plasmaBullet, laserBullet, waveBullet, missile;
     
-    byte selector = 1;
+    /**
+     * sprites for power ups
+     */
+    Sprite missilePowerUp, plasmaPowerUp, shieldPowerUp, speedPowerUp, wavePowerUp, laserPowerUp;
     
-     public Title(int roomWidth, int roomHeight, int viewWidth, int viewHeight )
-     {
-         super( roomWidth, roomHeight,viewWidth, viewHeight );
-     }
+    /**
+     * bottom bar to show hud
+     */
+    Sprite bottomHUD;
     
     /**
      * this is the main method to update the game, this framework 
@@ -50,9 +56,6 @@ public class Title extends GameLevel
     @Override
     public void update() 
     {
-        //
-        updateControl();
-        
         
     }//
 
@@ -106,17 +109,6 @@ public class Title extends GameLevel
     @Override
     public boolean initData() 
     {
-        
-        try 
-        {
-            font = Util.getFont( this.getClass() , "PressStart2p.ttf", 12 );
-            
-        } 
-        catch ( IOException | FontFormatException ex )
-        {
-            Logger.getLogger( Title.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
         return false;
     }
 
@@ -132,11 +124,8 @@ public class Title extends GameLevel
     @Override
     public void renderBackground(Graphics2D g) 
     {
-       
-        drawBgColor( g, Color.black );
-  
         
-    }//
+    }
 
     
     /**
@@ -152,28 +141,7 @@ public class Title extends GameLevel
     public void renderForeground(Graphics2D g) 
     {
         
-//        System.out.println("font: "+font.getName() );
-        
-        g.setColor( Color.white );
-        g.setFont( font );
-        
-        g.drawString( "Ilusion2 Game Library", 40, 20);
-        
-        
-//        g.setColor( Color.RED );
-//        g.setFont( font );
-//        
-//        g.drawString( "Ilusion2 Game Library", 40, 100);
-        
-        g.fillOval(X_CURSOR, yCursor -10, 10, 10 );
-
-        g.drawString( "1.- Xpace", 100, 100);
-        g.drawString( "2.- Maze", 100, 130);
-        g.drawString( "3.- Tower Defence", 100, 160);
-        g.drawString( "4.- Platform", 100, 190);
-        
-        
-    }//
+    }
 
     /**
      * use this method to render all HUD stuff
@@ -196,32 +164,8 @@ public class Title extends GameLevel
     @Override
     public void updateControl() 
     {
-       
-        if( keyControl.isKeyPress( KeyEvent.VK_DOWN ) )
-        {
-            yCursor +=30;
-            if( yCursor >=190 )yCursor = 190;
-            
-            selector++;
-            if(selector>=4)selector=4;
-        }
-        else if( keyControl.isKeyPress( KeyEvent.VK_UP ) )
-        {
-            yCursor -=30;
-            if( yCursor <=100 )yCursor = 100;
-            
-            selector--;
-            if(selector<=1)selector=1;
-            
-        } 
-        else if( keyControl.isKeyPress(KeyEvent.VK_ENTER) )
-        {
         
-            System.out.println( "::: entrar a "+selector );
-            
-        }
-        
-    }//
+    }
 
     /**
      * if your game will have connection via socket or througth

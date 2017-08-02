@@ -57,7 +57,7 @@ public class Game
             //se crea el room, este contiene a todos los niveles
             //this creates the room container that will have all levels and
             //will set the screen to full screen
-        GameManager room = new GameManager( "first", levelStack, true );
+        GameManager room = new GameManager( "first", levelStack, !true );
         
         room.setFocusable( true );
 //        room.setIgnoreRepaint( true );
@@ -66,7 +66,7 @@ public class Game
         
         
         //frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        frame.setUndecorated( false ); //to quit window bar
+        frame.setUndecorated( true ); //to quit window bar
         frame.add( room );
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
