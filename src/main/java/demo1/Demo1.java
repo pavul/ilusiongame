@@ -30,7 +30,7 @@ public class Demo1
         {
         
             //create initial level here...
-            Title title = new Title( 640,480 ,640 ,480 );
+            Title title = new Title( 400, 600, 400, 600  );
             
             //create GameManager here ( this is )
              GameManager gm = new GameManager( title , false );//change null for your level
@@ -39,13 +39,10 @@ public class Demo1
             //instanciate frame here
             frame = new JFrame("Demo1");
             //frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-            frame.setUndecorated( false ); //to quit window bar
+            frame.setUndecorated( true ); //to quit window bar
             frame.add( gm );
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
-            
-            System.out.println( "-> "+gm.getScaledWindowSize().getSize()
-                    + "");
             
             frame.setSize( gm.getScaledWindowSize() );
             frame.setLocationRelativeTo( null ); //for center

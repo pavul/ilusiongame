@@ -9,6 +9,7 @@ package demo1;
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.util.Util;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import demo1.xpace.XpaceGame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -109,7 +110,7 @@ public class Title extends GameLevel
         
         try 
         {
-            font = Util.getFont( this.getClass() , "PressStart2p.ttf", 12 );
+            font = Util.getFont( this.getClass() , "/demo1/PressStart2p.ttf", 12 );
             
         } 
         catch ( IOException | FontFormatException ex )
@@ -218,6 +219,15 @@ public class Title extends GameLevel
         {
         
             System.out.println( "::: entrar a "+selector );
+            
+            switch( selector )
+            {
+                case 1:
+                    room.loadLvl( new XpaceGame( 400, 600, 400, 600 ) );
+                    break;
+            }
+            
+            
             
         }
         

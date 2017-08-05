@@ -74,7 +74,7 @@ public class MazeXample extends GameLevel
      {
          super( roomWidth, roomHeight,viewWidth, viewHeight );
          
-         this.colisionTileMaps.add( colmap );
+//         this.colisionTileMaps.add( colmap );
 //         room.setFps( 30 );
          this.setPersistent(true);
      }//
@@ -99,8 +99,7 @@ public class MazeXample extends GameLevel
        Collision.getInstance()
          .checkColsionTile(
              player,
-                 colisionTileMaps.get(0),
-                             20, 15, 16,16);
+                 colmap, 20, 15, 16,16);
        
         
     }//
