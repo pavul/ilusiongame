@@ -6,6 +6,9 @@
 package demo1;
 
 import com.ilusion2.gamemanager.GameManager;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 /**
@@ -36,6 +39,9 @@ public class Demo1
              GameManager gm = new GameManager( title , false );//change null for your level
              gm.setFocusable( true );
             
+             
+//             frame.setIconImage(new BufferedImage( getClass().getClassLoader().getResource("PATH/TO/YourImage.png") ) );
+             
             //instanciate frame here
             frame = new JFrame("Demo1");
             //frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -47,7 +53,10 @@ public class Demo1
             frame.setSize( gm.getScaledWindowSize() );
             frame.setLocationRelativeTo( null ); //for center
             frame.setVisible( true );
-            frame.setResizable( false );
+            frame.setResizable( true );
+            frame.pack();
+            
+            gm.setgameContainer(frame ) ;
             
             //finally set Game Manager settings and start the game
             gm.setFps( 30 );

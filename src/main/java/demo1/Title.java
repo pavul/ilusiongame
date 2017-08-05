@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import xample.MazeXample;
 
 /**
  * this class is used to create levels for a game, if your
@@ -224,6 +225,9 @@ public class Title extends GameLevel
             {
                 case 1:
                     room.loadLvl( new XpaceGame( 400, 600, 400, 600 ) );
+                    break;
+                case 2:
+                    room.loadLvl( new MazeXample( 320,240, 320,240 ,null ) );
                     break;
             }
             

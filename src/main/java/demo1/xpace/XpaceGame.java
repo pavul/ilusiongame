@@ -16,6 +16,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.util.List;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -37,7 +38,7 @@ import javax.imageio.ImageIO;
  */
 public class XpaceGame extends GameLevel
 {
-
+    //to generate random numbers
     Random rand;
     
     //HUD variables for games
@@ -45,6 +46,7 @@ public class XpaceGame extends GameLevel
     String missileLbl = "Missile: ";
     String scoreLbl = "Score: ";
     
+    //initial speed of the ship
     float shipSpeed = 2;
     
     //those variables are to handle animation of the ship
@@ -53,14 +55,15 @@ public class XpaceGame extends GameLevel
     byte shipMovement = -1;
     
     
-    
+    //some values for the HUD
     byte shield = 100;
     byte missiles = 5;
     int  score = 0;
     
+    //weapon selected initiali plasma
     byte selectedWpn = 1;
 
-    
+    //sounter to span enemies certain number of frames
     byte spawnEnemyCounter = 0;
     
     
@@ -92,7 +95,7 @@ public class XpaceGame extends GameLevel
      */
     Sprite bottomHUD;
     
-    
+    //pools de enemies bullets and power ups
     List<Sprite> enemyList;
     List<Sprite> bulletList;
     List<Sprite> powerUpList;
@@ -114,6 +117,15 @@ public class XpaceGame extends GameLevel
     Image[] ene6Sprite;
      
     
+    
+    //variables to show stars
+    byte smallStarRadius = 2;
+    byte bigStarRadius = 4;
+    
+    Point[ ] smalStarList;
+    Point[ ] bigStarList;
+    byte smallStarSpeed = 1;
+    byte bigStarSpeed = 4;
     
     
 //    Media media =  new Media( "/demo1/xpace/Radiical-Planet-Earth.mp3" );
@@ -307,6 +319,28 @@ public class XpaceGame extends GameLevel
            }
            
            
+           //animate stars here
+           for( int i = 0; i < 4 ;i++)
+           {
+           
+               smalStarList[ i ].setLocation( smalStarList[ i ].x, smalStarList[ i ].y + smallStarSpeed );
+               bigStarList[ i ].setLocation( bigStarList[ i ].x, bigStarList[ i ].y + bigStarSpeed );
+               
+               
+               if( smalStarList[ i ].y > 600 )
+               {
+                   smalStarList[ i ].setLocation(  rand.nextInt( 395 ), -10 );
+               }
+              
+               rand.setSeed( rand.nextInt() );
+               
+                if( bigStarList[ i ].y > 600 )
+               {
+                    bigStarList[ i ].setLocation( rand.nextInt( 395 ), -10 );
+               }
+               
+           }//
+           
            
         
             spawnEnemyCounter++;
@@ -334,6 +368,24 @@ public class XpaceGame extends GameLevel
         powerUpList = new ArrayList<>();  
         
         enemyImgArray = new Image[ 6 ];
+        
+        
+        smalStarList = new Point[ 4 ];
+        bigStarList = new Point[ 4 ];
+
+        smalStarList[ 0 ] =new  Point( rand.nextInt( 395 ), rand.nextInt( 600 ) );
+        smalStarList[ 1 ]= new  Point( rand.nextInt( 395 ), rand.nextInt( 600 ) );
+        smalStarList[ 2 ]= new  Point( rand.nextInt( 395 ), rand.nextInt( 600 ) );
+        smalStarList[ 3 ]= new  Point( rand.nextInt( 395 ), rand.nextInt( 600 ) );
+
+        rand.setSeed( rand.nextInt() );
+        
+        
+        bigStarList[ 0 ]= new Point( rand.nextInt( 395 ), rand.nextInt( 600 ) );
+        bigStarList[ 1 ]= new Point( rand.nextInt( 395 ), rand.nextInt( 600 ) );
+        bigStarList[ 2 ]= new Point( rand.nextInt( 395 ), rand.nextInt( 600 ) );
+        bigStarList[ 3 ]= new Point( rand.nextInt( 395 ), rand.nextInt( 600 ) );
+    
     
         try 
         {
@@ -561,7 +613,20 @@ public class XpaceGame extends GameLevel
        
         drawBgColor( g , Color.black );
 
+        
+        
+        
+        g.setColor(Color.white);
         //draw stars here
+         //animate stars here
+           for( int i = 0; i < 4 ;i++)
+           {
+               
+               g.fillOval( smalStarList[ i ].x, smalStarList[ i ].y , smallStarRadius, smallStarRadius );
+               g.fillOval( bigStarList[ i ].x, bigStarList[ i ].y , bigStarRadius, bigStarRadius );
+           
+           }//
+           
         
     }//
 
