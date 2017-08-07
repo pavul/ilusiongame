@@ -10,7 +10,6 @@ import com.ilusion2.gamemanager.ImageBackground;
 import com.ilusion2.sprite.Sprite;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,7 +79,7 @@ public class RotationXample extends GameLevel
       
            if( mouseControl.isPressed() )
            {
-           room.loadLvl( "nearSpriteXample" );
+           gm.loadLvl( "nearSpriteXample" );
            }
            
            
@@ -225,6 +224,11 @@ public class RotationXample extends GameLevel
     @Override
     public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent gpdsce) {
         //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean resetLevel() {return false;
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 

@@ -22,8 +22,8 @@ jar
     
     manifest
     {
-        attributes ( "Main-Class": "xample.Game" ,
-            "Class-Path":"lib/pi4j-core-1.1.jar lib/ilusion2-0.jar\n\
+        attributes ( "Main-Class": "demo1.Demo1" ,
+            "Class-Path":"lib/pi4j-core-1.1.jar lib/ilusion2-0.jar lib/jlayer-1.0.1-1.jar\n\
 " )
     }
     

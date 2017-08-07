@@ -111,7 +111,7 @@ public class Title extends GameLevel
         
         try 
         {
-            font = Util.getFont( this.getClass() , "/demo1/PressStart2p.ttf", 12 );
+            font = Util.getFont( this.getClass() , "/demo1/PressStart2P.ttf", 12 );
             
         } 
         catch ( IOException | FontFormatException ex )
@@ -224,10 +224,10 @@ public class Title extends GameLevel
             switch( selector )
             {
                 case 1:
-                    room.loadLvl( new XpaceGame( 400, 600, 400, 600 ) );
+                    gm.loadLvl( new XpaceGame( 400, 600, 400, 600 ) );
                     break;
                 case 2:
-                    room.loadLvl( new MazeXample( 320,240, 320,240 ,null ) );
+                    gm.loadLvl( new MazeXample( 320,240, 320,240 ,null ) );
                     break;
             }
             
@@ -256,6 +256,11 @@ public class Title extends GameLevel
     public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent gpdsce) 
     {
         
+    }
+
+    @Override
+    public boolean resetLevel() {return false;
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }//class

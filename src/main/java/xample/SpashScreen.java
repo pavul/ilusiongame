@@ -11,10 +11,8 @@ import com.ilusion2.level.GameLevel;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -229,7 +227,7 @@ public class SpashScreen extends GameLevel
        if( mouseControl.isReleased() )
        {
            Level1 lvl = new Level1( 480, 320, 480, 320, null);
-           room.loadLvl( lvl );
+           gm.loadLvl( lvl );
        }
         
     }//
@@ -253,6 +251,11 @@ public class SpashScreen extends GameLevel
     public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent gpdsce) 
     {
         
+    }
+
+    @Override
+    public boolean resetLevel() {return false;
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }//class

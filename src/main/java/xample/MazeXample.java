@@ -11,8 +11,6 @@ import com.ilusion2.gamemanager.ImageBackground;
 import com.ilusion2.sprite.AnimationState;
 import com.ilusion2.sprite.Sprite;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -219,7 +217,7 @@ public class MazeXample extends GameLevel
             //System.out.println("xample.MazeXample.updateControl()");
             mouseControl.setReleased(false);
             
-            room.loadLvl( "first" );
+            gm.loadLvl( "first" );
         }//
               
     
@@ -269,6 +267,12 @@ public class MazeXample extends GameLevel
     @Override
     public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent gpdsce) {
     
+    }
+
+    @Override
+    public boolean resetLevel() 
+    {return false;
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

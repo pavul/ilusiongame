@@ -70,7 +70,7 @@ public class NearSpriteXample extends GameLevel
             
             mouseControl.setReleased(false);
             
-            room.loadLvl( "mazeXample" );
+            gm.loadLvl( "mazeXample" );
         }//
         
         
@@ -190,6 +190,11 @@ public class NearSpriteXample extends GameLevel
     @Override
     public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent gpdsce) {
     
+    }
+
+    @Override
+    public boolean resetLevel() {return false;
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

@@ -6,6 +6,8 @@
 
 package demo1.xpace;
 
+import com.ilusion2.audio.MusicPlayer;
+import com.ilusion2.gamemanager.GameState;
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.physics.Collision;
 import com.ilusion2.sprite.Sprite;
@@ -20,6 +22,7 @@ import java.awt.Point;
 import java.util.List;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,6 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.media.AudioClip;
 import javax.imageio.ImageIO;
+import javazoom.jl.decoder.JavaLayerException;
 
 /**
  * this class is used to create levels for a game, if your
@@ -128,10 +132,7 @@ public class XpaceGame extends GameLevel
     byte bigStarSpeed = 4;
     
     
-//    Media media =  new Media( "/demo1/xpace/Radiical-Planet-Earth.mp3" );
-//    Media media =  new Media( new File( "/demo1/xpace/Radiical-Planet-Earth.mp3" ).toURI().toString() );
-//    MediaPlayer mediaPlayer = new MediaPlayer( media );
-//    mediaPlayer.play();
+    MusicPlayer musicPlayer;
     
     /**
      * constructor
@@ -143,6 +144,7 @@ public class XpaceGame extends GameLevel
     public XpaceGame( int roomWidth,  int roomHeight,  int viewWidth,  int viewHeight )
     {
     super(roomWidth, roomHeight, viewWidth, viewHeight);
+    
     
     
     }//
@@ -160,6 +162,17 @@ public class XpaceGame extends GameLevel
     public void update() 
     {
        
+        
+        
+        switch( gameState )
+        {
+            
+            case PAUSED:
+                updateControlInPause();
+                
+                break;
+            case PLAYING:
+                
         updateControl();
         
         
@@ -350,7 +363,9 @@ public class XpaceGame extends GameLevel
             spawnenemy();
         }//
         
-        
+                
+                break;
+        }//
         
     }//
 
@@ -569,6 +584,24 @@ public class XpaceGame extends GameLevel
     @Override
     public boolean initSound() 
     {
+        System.out.println("::: entrando initSound");
+          
+        musicPlayer = new MusicPlayer();
+        
+        //to repeat the bg song indefinided
+        musicPlayer.setRepeat( true );
+        
+        try {
+            musicPlayer.play( "/demo1/xpace/PlanetEarth.mp3" );
+        } catch (JavaLayerException ex) {
+            Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         return false;
     }
 
@@ -613,19 +646,27 @@ public class XpaceGame extends GameLevel
        
         drawBgColor( g , Color.black );
 
-        
-        
-        
         g.setColor(Color.white);
-        //draw stars here
-         //animate stars here
+       
+           
+           //
+         switch( gameState )
+        {
+            
+             //starts have to be shown even if the game is
+             //paused or not
+            case PAUSED:
+            case PLAYING:
+           //draw stars here
+           //animate stars here
            for( int i = 0; i < 4 ;i++)
-           {
-               
+           {               
                g.fillOval( smalStarList[ i ].x, smalStarList[ i ].y , smallStarRadius, smallStarRadius );
                g.fillOval( bigStarList[ i ].x, bigStarList[ i ].y , bigStarRadius, bigStarRadius );
-           
            }//
+                break;
+                
+        }//switch
            
         
     }//
@@ -644,7 +685,14 @@ public class XpaceGame extends GameLevel
     public void renderForeground(Graphics2D g) 
     {
         
-        //ship.drawSubanimation( g, true );
+         //
+         switch( gameState )
+        {
+            
+            case PAUSED:
+                break;
+            case PLAYING:
+        
         ship.draw( g );
         
         for( Sprite spr: enemyList)  //spritePool)
@@ -664,6 +712,13 @@ public class XpaceGame extends GameLevel
         spr.draw( g );
         }
         
+                break;
+                
+        }//switch
+        
+        
+        
+        
     }//
 
     /**
@@ -678,14 +733,24 @@ public class XpaceGame extends GameLevel
     public void renderHUD(Graphics2D g) 
     {
         
-        bottomHUD.draw( g );
-        
         g.setColor( Color.white );
         g.setFont( font );
         
-        g.drawString( shieldLbl+shield , 20, 530);
-        g.drawString( missileLbl+missiles , 20, 550);
-        g.drawString( scoreLbl+score , 200, 530);
+        bottomHUD.draw( g );
+        
+         switch( gameState )
+        {
+            
+            case PAUSED:
+            g.drawString( "Game Paused Bitch!" , 140, 200 );
+            case PLAYING:
+            g.drawString( shieldLbl+shield , 20, 530);
+            g.drawString( missileLbl+missiles , 20, 550);
+            g.drawString( scoreLbl+score , 200, 530);
+            break;
+        
+        
+         }
         
     }//
 
@@ -765,14 +830,12 @@ public class XpaceGame extends GameLevel
                 
             } 
             
+            if( keyControl.isKeyPress( KeyEvent.VK_ENTER ) )
+            {
+                gameState =  GameState.PAUSED;   
+                musicPlayer.pause();
+            }//
             
-//             //check whether a key was released
-//             if( keyControl.keyReleased( KeyEvent.VK_UP ) )
-//             {
-//             }
-        
-        
-        
     }//
 
     /**
@@ -967,6 +1030,39 @@ public class XpaceGame extends GameLevel
     this.score += score;
     }
     
+    public void updateControlInPause()
+    {
     
+        if( keyControl.isKeyPress(KeyEvent.VK_ENTER ) )
+          {
+                gameState =  GameState.PLAYING;
+                
+                try 
+                {
+                musicPlayer.resume();
+                } 
+                catch (JavaLayerException ex) 
+                {
+                    Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch (URISyntaxException ex)
+                {
+                    Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                 
+          }
+        
+        
+    }//
+
+    @Override
+    public boolean resetLevel() 
+    {
+        return false;
+    }
     
 }//class

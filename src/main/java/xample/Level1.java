@@ -11,20 +11,15 @@ import com.ilusion2.control.GpioGameControlListener;
 import com.ilusion2.control.MouseControl;
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.physics.Collision;
-import com.ilusion2.gamemanager.GameState;
 import com.ilusion2.gamemanager.ImageBackground;
 import com.ilusion2.sprite.Sprite;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -455,7 +450,7 @@ if( mouseControl.isReleased() )
         
     
     
-  getRoom().loadLvl( "rotationXample" );
+  getGameManager().loadLvl( "rotationXample" );
     
 }//if mouse control released
 
@@ -525,6 +520,11 @@ if(mouseControl.isPressed())
         {}
         
     }//
+
+    @Override
+    public boolean resetLevel() {return false;
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
  
 }//class
