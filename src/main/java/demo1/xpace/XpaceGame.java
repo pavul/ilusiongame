@@ -145,14 +145,14 @@ public class XpaceGame extends GameLevel
     
      //comment this if u want to run in PC, 
      //enable to run in raspberry and to use GPIO pins as control
-//     try
-//     {
-//     this.initGpioGameControl();
-//     gpioGameControl.setGpioListener( this );
-//     }
-//     catch( Exception e )
-//     {e.printStackTrace();}
-//    
+     try
+     {
+     this.initGpioGameControl();
+     gpioGameControl.setGpioListener( this );
+     }
+     catch( Exception e )
+     {e.printStackTrace();}
+      
     
     }//
     
@@ -878,9 +878,12 @@ public class XpaceGame extends GameLevel
     public void handleGpioPinDigitalStateChangeEvent( GpioPinDigitalStateChangeEvent gpdsce ) 
     {
         
+        System.out.println("get STATE: "+gpdsce.getState());
         if( gpdsce.getState().equals( gpioGameControl.getBtnStateLow() ) )
         {
         
+            System.out.println("LOW STATE: "+gpdsce.getPin() );
+            
             //if we now that a button was pressed, then we have to look
             //which is
             if( gpdsce.getPin().equals( gpioGameControl.getLeftPad() ) )
@@ -963,8 +966,7 @@ public class XpaceGame extends GameLevel
             
             if( gpdsce.getPin().equals( gpioGameControl.getGoBtn()) )
             {
-                 if( keyControl.isKeyPress( KeyEvent.VK_ENTER ) )
-                {
+               
                     
                     if( gameState == GameState.PAUSED )
                     {
@@ -989,9 +991,7 @@ public class XpaceGame extends GameLevel
                     }
                     
                     
-                    
-                    
-                }//
+                  
             }
             
              
