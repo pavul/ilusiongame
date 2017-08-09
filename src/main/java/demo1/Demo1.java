@@ -36,7 +36,7 @@ public class Demo1
             Title title = new Title( 400, 600, 400, 600  );
             
             //create GameManager here ( this is )
-             GameManager gm = new GameManager( title , false );//change null for your level
+             GameManager gm = new GameManager( title , false );
              gm.setFocusable( true );
             
              

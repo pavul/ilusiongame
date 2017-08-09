@@ -40,6 +40,19 @@ public class Title extends GameLevel
      public Title(int roomWidth, int roomHeight, int viewWidth, int viewHeight )
      {
          super( roomWidth, roomHeight,viewWidth, viewHeight );
+         
+         
+     //comment this if u want to run in PC, 
+     //enable to run in raspberry and to use GPIO pins as control
+//     try
+//     {
+//     this.initGpioGameControl();
+//     gpioGameControl.setGpioListener( this );
+//     }
+//     catch( Exception e )
+//     {e.printStackTrace();}
+    
+         
      }
     
     /**
@@ -218,21 +231,7 @@ public class Title extends GameLevel
         } 
         else if( keyControl.isKeyPress(KeyEvent.VK_ENTER) )
         {
-        
-            System.out.println( "::: entrar a "+selector );
-            
-            switch( selector )
-            {
-                case 1:
-                    gm.loadLvl( new XpaceGame( 400, 600, 400, 600 ) );
-                    break;
-                case 2:
-                    gm.loadLvl( new MazeXample( 320,240, 320,240 ,null ) );
-                    break;
-            }
-            
-            
-            
+        chooseLvl();
         }
         
     }//
@@ -255,12 +254,45 @@ public class Title extends GameLevel
     @Override
     public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent gpdsce) 
     {
+       
+        if( gpdsce.getState().equals( gpioGameControl.getBtnStateLow() ) )
+        {
         
-    }
+              if( gpdsce.getPin().equals( gpioGameControl.getGoBtn()) )
+            {
+                 if( keyControl.isKeyPress( KeyEvent.VK_ENTER ) )
+                {
+                    chooseLvl();
+                }//
+            }
+            
+        
+        }//
+        
+        
+        
+    }//
 
     @Override
     public boolean resetLevel() {return false;
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
+    
+    private void chooseLvl()
+    {
+        System.out.println( "::: entrar a "+selector );
+            
+            switch( selector )
+            {
+                case 1:
+                    gm.loadLvl( new XpaceGame( 400, 600, 400, 600 ) );
+                    break;
+                case 2:
+                    gm.loadLvl( new MazeXample( 320,240, 320,240 ,null ) );
+                    break;
+            }
+    }//
+    
 }//class

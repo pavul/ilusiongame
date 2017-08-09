@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package demo1.xpace;
 
-import com.ilusion2.audio.MusicPlayer;
 import com.ilusion2.gamemanager.GameState;
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.physics.Collision;
@@ -23,12 +17,10 @@ import java.util.List;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.media.AudioClip;
 import javax.imageio.ImageIO;
 import javazoom.jl.decoder.JavaLayerException;
 
@@ -65,7 +57,7 @@ public class XpaceGame extends GameLevel
     int  score = 0;
     
     //weapon selected initiali plasma
-    byte selectedWpn = 1;
+    byte selectedWpn = 3;
 
     //sounter to span enemies certain number of frames
     byte spawnEnemyCounter = 0;
@@ -107,8 +99,8 @@ public class XpaceGame extends GameLevel
     Image[] enemyImgArray;
     
     
-    final URL resource = getClass().getResource( "/demo1/xpace/lasershoot.wav" );
-    AudioClip sound = new AudioClip( resource.toString() ) ;
+//    final URL resource = getClass().getResource( "/demo1/xpace/lasershoot.wav" );
+//    AudioClip sound = new AudioClip( resource.toString() ) ;
     
     
     Image[] explosion;
@@ -132,7 +124,8 @@ public class XpaceGame extends GameLevel
     byte bigStarSpeed = 4;
     
     
-    MusicPlayer musicPlayer;
+    
+    
     
     /**
      * constructor
@@ -145,6 +138,17 @@ public class XpaceGame extends GameLevel
     {
     super(roomWidth, roomHeight, viewWidth, viewHeight);
     
+    
+    
+     //comment this if u want to run in PC, 
+     //enable to run in raspberry and to use GPIO pins as control
+//     try
+//     {
+//     this.initGpioGameControl();
+//     gpioGameControl.setGpioListener( this );
+//     }
+//     catch( Exception e )
+//     {e.printStackTrace();}
     
     
     }//
@@ -247,6 +251,8 @@ public class XpaceGame extends GameLevel
                         {
                              //@TODO points up, 
                             
+                            
+                             soundPlayer.play( "/demo1/xpace/misiexplosion.wav" );
                              //check if it must spawn a power up
                             spawnPowerUp( ene.getX(), ene.getY() );
                             
@@ -586,13 +592,12 @@ public class XpaceGame extends GameLevel
     {
         System.out.println("::: entrando initSound");
           
-        musicPlayer = new MusicPlayer();
-        
         //to repeat the bg song indefinided
         musicPlayer.setRepeat( true );
         
         try {
-            musicPlayer.play( "/demo1/xpace/PlanetEarth.mp3" );
+//            System.out.println("::: "+this.getClass() );
+            musicPlayer.play( "/demo1/xpace/planetEarth.mp3" );
         } catch (JavaLayerException ex) {
             Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -618,12 +623,9 @@ public class XpaceGame extends GameLevel
         
         try 
         {
-            font = Util.getFont( this.getClass() , "/demo1/PressStart2p.ttf", 10 );
+            font = Util.getFont( this.getClass() , "/demo1/PressStart2P.ttf", 12 );
         }
-        catch (IOException ex) 
-        {
-            Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FontFormatException ex) 
+        catch (IOException |FontFormatException ex) 
         {
             Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -790,7 +792,13 @@ public class XpaceGame extends GameLevel
                         
                         if( !plasmaBullet.isVisible() )
                         {
-                        sound.play( 0.1 );
+//                            /.,
+                            
+                          
+//                            sound.playSound( "uno" );
+                            
+                        soundPlayer.play( "/demo1/xpace/lasershoot.wav" );
+//                        sound.play( 0.1 );
                         plasmaBullet.setPosition( ship.getCenterX()+plasmaBullet.getCenterX(),ship.getY() );
                         plasmaBullet.setVisible( true );
                         }
@@ -800,6 +808,8 @@ public class XpaceGame extends GameLevel
                         //shoot laser
                         if( !laserBullet.isVisible() )
                         {
+                            
+                            
                         laserBullet.setPosition( ship.getCenterX() + laserBullet.getCenterX(),ship.getY() );
                         laserBullet.setVisible( true );
                         }
@@ -808,6 +818,7 @@ public class XpaceGame extends GameLevel
                         //shoot wave
                         if( !waveBullet.isVisible() )
                         {
+                           
                         waveBullet.setPosition( ship.getCenterX()+waveBullet.getCenterX(),ship.getY() );
                         waveBullet.setVisible( true );
                         }
@@ -854,8 +865,130 @@ public class XpaceGame extends GameLevel
      * @param gpdsce 
      */
     @Override
-    public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent gpdsce) 
+    public void handleGpioPinDigitalStateChangeEvent( GpioPinDigitalStateChangeEvent gpdsce ) 
     {
+        
+        if( gpdsce.getState().equals( gpioGameControl.getBtnStateLow() ) )
+        {
+        
+            //if we now that a button was pressed, then we have to look
+            //which is
+            if( gpdsce.getPin().equals( gpioGameControl.getLeftPad() ) )
+            {
+             ship.move( -shipSpeed, 0 );
+            }
+            if( gpdsce.getPin().equals( gpioGameControl.getRigthPad()) )
+            {
+                ship.move( shipSpeed, 0 );
+            }
+            if( gpdsce.getPin().equals( gpioGameControl.getUpPad()) )
+            {
+               ship.move( 0, -shipSpeed );
+            }
+            if( gpdsce.getPin().equals( gpioGameControl.getDownPad()) )
+            {
+                ship.move( 0, shipSpeed );
+            }
+            
+        }
+        else //buttons released
+        {
+         
+         //pause, shoot, missile
+          if( gpdsce.getPin().equals( gpioGameControl.getRedBtn()) )
+            {
+                
+                switch( selectedWpn )
+                {
+                    case 1:
+                        //shoot plasma
+                        
+                        if( !plasmaBullet.isVisible() )
+                        {
+//                            /.,
+                            
+                          
+//                            sound.playSound( "uno" );
+                            
+                        soundPlayer.play( "/demo1/xpace/lasershoot.wav" );
+//                        sound.play( 0.1 );
+                        plasmaBullet.setPosition( ship.getCenterX()+plasmaBullet.getCenterX(),ship.getY() );
+                        plasmaBullet.setVisible( true );
+                        }
+                        
+                        break;
+                    case 2:
+                        //shoot laser
+                        if( !laserBullet.isVisible() )
+                        {
+                            
+                            
+                        laserBullet.setPosition( ship.getCenterX() + laserBullet.getCenterX(),ship.getY() );
+                        laserBullet.setVisible( true );
+                        }
+                        break;
+                    case 3:
+                        //shoot wave
+                        if( !waveBullet.isVisible() )
+                        {
+                           
+                        waveBullet.setPosition( ship.getCenterX()+waveBullet.getCenterX(),ship.getY() );
+                        waveBullet.setVisible( true );
+                        }
+                        break;
+                    
+                }//suich
+                
+                
+                
+            }
+            if( gpdsce.getPin().equals( gpioGameControl.getGreenBtn()) )
+            {
+                if( missiles > 0 && !missile.isVisible())
+                {
+                missiles --;
+                missile.setVisible( true );
+                missile.setPosition( ship.getCenterX()+missile.getCenterX(),ship.getY() );
+                }//
+                
+            } 
+            
+            if( gpdsce.getPin().equals( gpioGameControl.getGoBtn()) )
+            {
+                 if( keyControl.isKeyPress( KeyEvent.VK_ENTER ) )
+                {
+                    
+                    if( gameState == GameState.PAUSED )
+                    {
+                    gameState =  GameState.PLAYING;   
+
+                        try 
+                        {
+                            musicPlayer.resume();
+                        } catch (JavaLayerException ex) {
+                            Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IOException ex) {
+                            Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (URISyntaxException ex) {
+                            Logger.getLogger(XpaceGame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    }
+                    else
+                    {
+                    gameState =  GameState.PAUSED;   
+                    musicPlayer.pause();    
+                    }
+                    
+                    
+                    
+                    
+                }//
+            }
+            
+             
+             
+         }
         
     }//
     

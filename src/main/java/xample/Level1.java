@@ -6,9 +6,6 @@
 package xample;
 
 import com.ilusion2.config.Config;
-import com.ilusion2.control.GpioGameControl;
-import com.ilusion2.control.GpioGameControlListener;
-import com.ilusion2.control.MouseControl;
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.physics.Collision;
 import com.ilusion2.gamemanager.ImageBackground;
