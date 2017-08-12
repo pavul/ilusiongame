@@ -23,6 +23,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javazoom.jl.decoder.JavaLayerException;
+import kuusisto.tinysound.Sound;
+import kuusisto.tinysound.TinySound;
 
 /**
  * this class is used to create levels for a game, if your
@@ -124,7 +126,8 @@ public class XpaceGame extends GameLevel
     byte bigStarSpeed = 4;
     
     
-    
+    Sound explosionSFX;
+    Sound shootSFX;
     
     
     /**
@@ -138,7 +141,7 @@ public class XpaceGame extends GameLevel
     {
     super(roomWidth, roomHeight, viewWidth, viewHeight);
     
-    
+        TinySound.init();
     
      //comment this if u want to run in PC, 
      //enable to run in raspberry and to use GPIO pins as control
@@ -149,7 +152,7 @@ public class XpaceGame extends GameLevel
 //     }
 //     catch( Exception e )
 //     {e.printStackTrace();}
-    
+//    
     
     }//
     
@@ -251,8 +254,8 @@ public class XpaceGame extends GameLevel
                         {
                              //@TODO points up, 
                             
-                            
-                             soundPlayer.play( "/demo1/xpace/misiexplosion.wav" );
+                            explosionSFX.play( .5f );
+//                             soundPlayer.play( "/demo1/xpace/misiexplosion.wav" );
                              //check if it must spawn a power up
                             spawnPowerUp( ene.getX(), ene.getY() );
                             
@@ -592,6 +595,11 @@ public class XpaceGame extends GameLevel
     {
         System.out.println("::: entrando initSound");
           
+        
+        explosionSFX = TinySound.loadSound( "/demo1/xpace/misiexplosion.wav"  );
+        shootSFX = TinySound.loadSound( "/demo1/xpace/lasershoot.wav" );
+        
+        
         //to repeat the bg song indefinided
         musicPlayer.setRepeat( true );
         
@@ -797,7 +805,9 @@ public class XpaceGame extends GameLevel
                           
 //                            sound.playSound( "uno" );
                             
-                        soundPlayer.play( "/demo1/xpace/lasershoot.wav" );
+                            shootSFX.play( .2f);
+                            
+//                        soundPlayer.play( "/demo1/xpace/lasershoot.wav" );
 //                        sound.play( 0.1 );
                         plasmaBullet.setPosition( ship.getCenterX()+plasmaBullet.getCenterX(),ship.getY() );
                         plasmaBullet.setVisible( true );
@@ -906,11 +916,9 @@ public class XpaceGame extends GameLevel
                         if( !plasmaBullet.isVisible() )
                         {
 //                            /.,
-                            
-                          
 //                            sound.playSound( "uno" );
-                            
-                        soundPlayer.play( "/demo1/xpace/lasershoot.wav" );
+//                            shootSFX.play( .5f );
+//                        soundPlayer.play( "/demo1/xpace/lasershoot.wav" );
 //                        sound.play( 0.1 );
                         plasmaBullet.setPosition( ship.getCenterX()+plasmaBullet.getCenterX(),ship.getY() );
                         plasmaBullet.setVisible( true );
