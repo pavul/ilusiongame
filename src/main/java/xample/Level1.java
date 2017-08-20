@@ -6,9 +6,9 @@
 package xample;
 
 import com.ilusion2.config.Config;
+import com.ilusion2.gamemanager.Camera;
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.physics.Collision;
-import com.ilusion2.gamemanager.ImageBackground;
 import com.ilusion2.sprite.Sprite;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import java.awt.Color;
@@ -16,7 +16,6 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 /**
@@ -33,12 +32,13 @@ public class Level1 extends GameLevel
     float potency; 
     int degrees;
     
+    float moveSpeed =1.0f;
   
     
     /**
      * tile settings
      */
-     int columns = 30;
+     int columns = 60;
      int rows = 20;
      int tileWidth = 16;
      int tileHeigth = 16;
@@ -57,29 +57,30 @@ public class Level1 extends GameLevel
       */
      int [] tileMap = {
      
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
      
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+   
      
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,11,11,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,11,11,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
     
-     52,52,52,52,52,52,52,52,52,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,10,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0   
+     52,52,52,52,52,52,52,52,42,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,52,42,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,42,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,52,42,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,42,10,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,52,52,52,42,10,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11, 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0    
      };
      
      
@@ -88,43 +89,60 @@ public class Level1 extends GameLevel
       * tiles will colide with player/enemies
       */
      int [] tileColisionMap = {
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     
-     0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0   
+     0,0,0,0,0,0,0,0,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,2,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
      };
      
     
-     public Level1(int roomWidth, int roomHeight, int viewWidth, int viewHeight,
-           ArrayList<ImageBackground> imgbg)
-     {
+     int [] slopeArray = {
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,
+     0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,
+     0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,
      
+     0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,
+     0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,
+     0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,
+     0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,
+     
+     0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,
+     0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,
+     0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,
+     0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,
+     
+     0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,
+     0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,
+     0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
+     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+     };
+     
+     
+     public Level1(int roomWidth, int roomHeight, int viewWidth, int viewHeight)
+     {
          super( roomWidth, roomHeight,viewWidth, viewHeight );
       
      msg = "push any button";     
-     
-     
-     
-     
      
      //se activa el control de GPIO
      
@@ -138,8 +156,8 @@ public class Level1 extends GameLevel
 //     catch( Exception e )
 //     {e.printStackTrace();}
      
-    
-     
+    //creation of camera
+     cam = new Camera( roomWidth, roomHeight, viewWidth, viewHeight);
      
      
      }//const1
@@ -148,6 +166,7 @@ public class Level1 extends GameLevel
     @Override
     public void update() 
     {
+        
          switch( gameState )
                {
                    case LOADING:
@@ -155,53 +174,27 @@ public class Level1 extends GameLevel
                        break;
                    case PLAYING:
                        //put gameplay code here
-                       
-                       //acepts key events
-                       updateControl();
+//                       g.translate(cam.getCamx(), cam.getCamy());
                        
                        
-//                       System.out.println("before projump "+player.getY()+" - - "+player.getJumpValue() );
                        
-                       
-                       //when jump = true for player object
-                       //this function will process all the jump
-                       player.processJump();
-                       
-//                        System.out.println("after projump "+player.getY()+" - - "+player.getJumpValue() );
-                       
-                       /**
-                        * checking if side Colision is bottom, to neutralize
-                        * gravity so the player wont stuck on corners or other
-                        * colision tiles
-                        */
-//                       if( sideColision.equals( Config.COLISION_BOTTOM ) )
-//                       {
-//                           
-////                          System.out.println("sideColision.equals " + ( player.getY() - player.getJumpValue() ) );
-//                        
-//                           sideColision ="";
-//                           player.setY(  player.getY() - player.getJumpValue() );
-//                       
-////                         try 
-////                         {
-////                             Thread.sleep(500);
-////                         } 
-////                         catch( InterruptedException ex )
-////                         {
-////                             Logger.getLogger(Level1.class.getName()).log(Level.SEVERE, null, ex);
-////                         }
-//                           
-//                       }//
-                       
-                       
-                       //check here if the player is not above a platform
-                       if( !player.isJump() )
-                       {
-                           
-                           
-                       }//
-                       
-                       
+                        //acepts key events
+                        updateControl();
+                    
+                        
+                       //this will always processing the gravity for player
+                        player.processJump();
+                      
+                          
+//                        if player is not jumping we will substract jumpvalue
+//                        because processJump is always adding gravity to player
+                        if( !player.isJump() )
+                        {
+                        //remove jump value if player is not jumping
+                        player.setY( player.getY( )  - player.getJumpValue() );
+                        }
+                        
+                        
                        //this check tile colision against player
                        //basically is puting the solid tiles of the whole level
                        //enemies, usable objects and players may check this colisions
@@ -213,22 +206,34 @@ public class Level1 extends GameLevel
                        tileWidth,
                        tileHeigth ).equals( Config.COLISION_BOTTOM ) )
                        {
-//                           System.out.println("checkcolisiontile" );
-//                           sideColision = Config.COLISION_BOTTOM;
                              player.setJump( false );
- 
-                             //this is to not let player get stuck
-//                           System.out.println("jumpvalue substracted: "+player.getJumpValue());
-//                           player.setY(  player.getY() + player.getJumpValue() );
-                           
-//                                                s1.setY( s1.getY()-1 );
-//                           player.setJumpValue( player.getJumpValue() );
+//                             player.setJumpValue( 0 );
+//                             player.setY( player.getY( ) - player.getJumpValue() );
+                             System.out.println("::: inside collision "+player.getY() );
                        }//
                        
                        
-                       
+                       if(
+                       !Collision.getInstance().
+                       checkColsionFree 
+                        (
+                        player, 2,
+                        tileColisionMap, 
+                        columns,
+                        rows, 
+                        tileWidth,
+                        tileHeigth
+                        ) && !player.isJump() )
+                       {
+                       player.setJump( true );
+                       //player.setJumpValue( 1 );
+                       }
+//                      
+                         
+                        
 
-                       
+                      
+                            
                        
                        
                        break;
@@ -262,11 +267,15 @@ public class Level1 extends GameLevel
         try
         {
             player = new Sprite( 24, 32, ImageIO.read( this.getClass().getResource( "/char1.png" ) )  );
+//            player = new Sprite( 16,16, ImageIO.read( this.getClass().getResource( "/char1.png" ) )  );
             
             player.setPosition( 20, 320 - 32 - player.getH() );
             player.setVisible( true );
             
             player.setJumpForce( 5 );
+            
+//            player.setAnchor(new Point( ( int )player.getHalfWidth(), ( int )player.getH() ));
+//            player.setAnchor(new Point( 10 , ( int )player.getH() ));
             
             //player.setJumpValue( 1 );
             
@@ -279,7 +288,20 @@ public class Level1 extends GameLevel
             ioe.printStackTrace();
         }
         
-     backgroundTile = new Sprite( 16, 16, bufBackground );
+        backgroundTile = new Sprite( 16, 16, bufBackground );
+        
+        
+        
+        
+        //set cammera bounds here!
+        player.setRoomBoundLeft( 0 );
+        player.setRoomBoundRight( roomWidth );
+        player.setRoomBoundTop( 0 );
+        player.setRoomBoundBottom( roomHeight );
+        
+        
+        cam.setMarginLeft( viewWidth / 3 );
+        cam.setMarginRight( (viewWidth / 3) * 2 );
         
         
         return true;
@@ -308,6 +330,13 @@ public class Level1 extends GameLevel
     @Override
     public void renderBackground(Graphics2D g2) 
     {
+        /**
+         * this code is very importan!
+         * this is making to move the camera when
+         * the player is moving.
+         */
+        g2.translate( cam.getCamx(), cam.getCamy() );
+        
         
         //draw blue sky
         drawBgColor( g2, Color.BLACK );
@@ -316,12 +345,7 @@ public class Level1 extends GameLevel
         //draw tiles
         drawBgTile( g2 , 
              backgroundTile.getFrames() ,tileMap, columns, rows, tileWidth, tileHeigth );
-     
-        
-//        System.out.println(" "+xScale+" - "+yScale);
-//        System.out.println(" "+ (480*xScale)/2 +" - "+ (320 * yScale) );
         ( g2 ).setColor(Color.GREEN);
-//        ((Graphics2D)g).  drawRect(0, 0, (int)(480 * xScale)/2  , (int)(320.0 * yScale) );
 
 /**
  * este sirve para mostrar el area donde se puede presionar a la izquierda, toma los valores sin
@@ -338,11 +362,14 @@ public class Level1 extends GameLevel
         
         player.draw( g2 );
         
-        player//.drawBalisticTrayectory((Graphics2D)g );
-        .drawBalisticTrayectory( g2 ,
-            potency, 
-            degrees,
-            20);
+        
+        g2.setColor( Color.red );
+//        g2.drawString("[]", player.getX() + player.getAnchor().x, player.getY( ) + player.getAnchor().y );
+//        player//.drawBalisticTrayectory((Graphics2D)g );
+//        .drawBalisticTrayectory( g2 ,
+//            potency, 
+//            degrees,
+//            20);
         //player.drawRotate( (Graphics2D)g , playerdegrees );
         
         
@@ -359,20 +386,40 @@ public class Level1 extends GameLevel
 
     @Override
     public void updateControl() 
-    {
+    { 
      
+        
+//          else if(keyControl.isKeyDown(KeyEvent.VK_UP))
+//            {
+//                player.setSubanimation(AnimationState.MOVEUP);
+//            player.move(0, -3);
+//                 if(player.getY() < cam.getOffsetY() + cam.getMarginTop())
+//                { cam.moveY(3); }  
+//            } 
+//            else if(keyControl.isKeyDown(KeyEvent.VK_DOWN))
+//            {
+//                if(player.getY()+player.getH() > cam.getOffsetY()  +cam.getMarginBottom())
+//                { cam.moveY(- 3); }  
+//            } 
+        
+        
+        
         //keyboard control
             if(keyControl.isKeyDown( KeyEvent.VK_RIGHT ))
             {
+                player.moveSpeedX( moveSpeed );
                 
-//                player.setDegrees( (int) player.getDegrees()+1);
-                
-                player.moveSpeedX( 3 );
+                if( player.getX() + player.getW() > cam.getOffsetX() + cam.getMarginRight() )
+                { cam.moveX( - 3 ); } 
+                System.out.println("--> "+cam.getOffsetX());
             }
             if(keyControl.isKeyDown( KeyEvent.VK_LEFT ))
             {
-//                player.setDegrees( (int) player.getDegrees()-1);
-                player.moveSpeedX( -3 );
+                player.moveSpeedX( -moveSpeed );
+                
+                 if( player.getX() < cam.getOffsetX() + cam.getMarginLeft() )
+                { cam.moveX( 3 ); } 
+                
             }
             //this is ISKEYPRESS because it only executes once when
             //the key is presed
@@ -380,6 +427,7 @@ public class Level1 extends GameLevel
             {
                 System.out.println("jumping");
                 player.setJump( true );
+                player.setJumpValue( 5 );
             } 
             
             

@@ -10,15 +10,20 @@ import com.ilusion2.physics.Collision;
 import com.ilusion2.gamemanager.ImageBackground;
 import com.ilusion2.sprite.AnimationState;
 import com.ilusion2.sprite.Sprite;
+import com.ilusion2.util.Util;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import tile.Tile;
 
 /**
  *
@@ -32,6 +37,10 @@ public class MazeXample extends GameLevel
     
     Sprite player;
     Sprite orb;
+    
+    
+    
+    List<Tile> tileList;;
     
     
   int []colmap =
@@ -67,14 +76,29 @@ public class MazeXample extends GameLevel
              int roomWidth, 
              int roomHeight, 
              int viewWidth, 
-             int viewHeight,
-             ArrayList<ImageBackground> imgbg)
+             int viewHeight )
      {
          super( roomWidth, roomHeight,viewWidth, viewHeight );
          
+         
+        tileList = Util.getTileList(colmap,
+                1,
+                16, 
+                16, 
+                20,15 );
+         
+        
+        tileList.forEach( tile->
+        {
+            System.out.println("::: "+tile.getX()+" - "+tile.getY()+" - "+tile.getW()+" - "+tile.getH());
+        });
+         System.out.println(" despues de :"+tileList.size( ) );
+        
+         
+         
 //         this.colisionTileMaps.add( colmap );
 //         room.setFps( 30 );
-         this.setPersistent(true);
+//         this.setPersistent(true);
      }//
     
     
@@ -88,16 +112,37 @@ public class MazeXample extends GameLevel
     {
     
         
-        // will move the player with the controls
+        
+         switch( gameState )
+        {
+            
+            case PAUSED:
+                
+                break;
+            case PLAYING:
+                
+                  // will move the player with the controls
         updateControl();
         
         
         //this check wheter the player has been colided 
         //with some solid block
+//       Collision.getInstance()
+//         .checkColsionTile(
+//             player,
+//                 colmap, 20, 15, 16,16);
+       
        Collision.getInstance()
-         .checkColsionTile(
+         .checkColsionTile
+        (
              player,
-                 colmap, 20, 15, 16,16);
+             tileList
+         );
+      
+                
+                break;
+        }//
+        
        
         
     }//
@@ -152,14 +197,21 @@ public class MazeXample extends GameLevel
         
             try 
             {
-                bg = new ImageBackground(
-                        ImageIO.read( 
-                                this.getClass().getResource( "/mazegame/mazemap.png" ) ) , 0, 0 );
+                
+                BufferedImage bi = ImageIO.read( 
+                                this.getClass().getResource( "/mazegame/mazemap.png" ) ); 
+                
+                bg = new ImageBackground ( bi , 0, 0 );
            
             }
             catch (IOException ex)
             {
+                
+                System.out.println("::: error al cargar imagen: "+ex.getMessage() );
+                
                 Logger.getLogger(MazeXample.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+                
             }
         
         
@@ -184,8 +236,30 @@ public class MazeXample extends GameLevel
     @Override
     public void renderBackground(Graphics2D g2) 
     {
-//        Color aa = new Color(roomWidth, roomWidth, roomWidth, roomWidth);
-        drawBgImage( g2, bg.getImg()  , bg.getX(), bg.getY() );
+        
+          switch( gameState )
+        {
+            
+            case PAUSED:
+                
+                break;
+            case PLAYING:
+        
+                drawBgImage( g2, bg.getImg()  , bg.getX(), bg.getY() );
+                
+                
+                g2.setColor( Color.red );
+                tileList.forEach(tile->
+                {
+                g2.drawRect(tile.getX(),
+                        tile.getY(),
+                        tile.getW(),
+                        tile.getH());
+                
+                });
+            break;
+        }
+        
         
     }//
 
@@ -193,18 +267,35 @@ public class MazeXample extends GameLevel
     public void renderForeground(Graphics2D g2) 
     {
     
-//        player.draw( (Graphics2D )g );
+      switch( gameState )
+        {
+            
+            case PAUSED:
+                
+                break;
+            case PLAYING:
         
-        //this will make the player update the current
-        //frames of animation state
-        player.drawSubanimation( g2 ,  true );
+                 player.drawSubanimation( g2 ,  true );
+            break;
+        }
+       
         
     }//
 
     @Override
     public void renderHUD(Graphics2D g2)
     {
-    
+      switch( gameState )
+        {
+            
+            case PAUSED:
+                
+                break;
+            case PLAYING:
+        
+            break;
+        }
+       
     }
 
     @Override
@@ -221,7 +312,7 @@ public class MazeXample extends GameLevel
         }//
               
     
-        if(keyControl.isKeyDown(KeyEvent.VK_RIGHT))
+        if( keyControl.isKeyDown(KeyEvent.VK_RIGHT) )
             {
                 
                 if( player.getCurrentAnimationState()!= AnimationState.MOVERIGHT )

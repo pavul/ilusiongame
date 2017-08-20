@@ -208,7 +208,7 @@ public class SpashScreen extends GameLevel
      * background
      * foreground
      * HUD
-     * @param g 
+     * @param g2
      */
     @Override
     public void renderHUD(Graphics2D g2) 
@@ -226,7 +226,7 @@ public class SpashScreen extends GameLevel
         
        if( mouseControl.isReleased() )
        {
-           Level1 lvl = new Level1( 480, 320, 480, 320, null);
+           Level1 lvl = new Level1( 480, 320, 480, 320 );
            gm.loadLvl( lvl );
        }
         

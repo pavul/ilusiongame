@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package demo1;
 
@@ -18,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import xample.Level1;
 import xample.MazeXample;
 
 /**
@@ -290,7 +286,13 @@ public class Title extends GameLevel
                     gm.loadLvl( new XpaceGame( 400, 600, 400, 600 ) );
                     break;
                 case 2:
-                    gm.loadLvl( new MazeXample( 320,240, 320,240 ,null ) );
+                    gm.loadLvl( new MazeXample( 320,240, 320,240 ) );
+                    break;
+                case 3:
+                    ///gm.loadLvl( new MazeXample( 320,240, 320,240 ) );
+                    break;
+                case 4:
+                    gm.loadLvl( new Level1( 960, 320, 480, 320 ) );
                     break;
             }
     }//

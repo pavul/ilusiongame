@@ -130,6 +130,8 @@ public class XpaceGame extends GameLevel
     Sound shootSFX;
     
     
+    boolean moveLeft, moveRight, moveUp, moveDown;
+    
     /**
      * constructor
      * @param roomWidth
@@ -145,13 +147,13 @@ public class XpaceGame extends GameLevel
     
      //comment this if u want to run in PC, 
      //enable to run in raspberry and to use GPIO pins as control
-     try
-     {
-     this.initGpioGameControl();
-     gpioGameControl.setGpioListener( this );
-     }
-     catch( Exception e )
-     {e.printStackTrace();}
+//     try
+//     {
+//     this.initGpioGameControl();
+//     gpioGameControl.setGpioListener( this );
+//     }
+//     catch( Exception e )
+//     {e.printStackTrace();}
       
     
     }//
@@ -773,20 +775,20 @@ public class XpaceGame extends GameLevel
     {
         
         
-         if(keyControl.isKeyDown(KeyEvent.VK_RIGHT))
+         if(keyControl.isKeyDown(KeyEvent.VK_RIGHT) || moveRight )
             {
                 
                 ship.move( shipSpeed, 0 );
             }
-             if(keyControl.isKeyDown(KeyEvent.VK_LEFT))
+             if(keyControl.isKeyDown(KeyEvent.VK_LEFT) || moveLeft )
             {
                 ship.move( -shipSpeed, 0 );
             } 
-             if(keyControl.isKeyDown(KeyEvent.VK_UP))
+             if(keyControl.isKeyDown(KeyEvent.VK_UP) || moveUp )
             {
                 ship.move( 0, -shipSpeed );
             } 
-             if(keyControl.isKeyDown(KeyEvent.VK_DOWN))
+             if(keyControl.isKeyDown(KeyEvent.VK_DOWN) || moveDown )
             {
                 ship.move( 0, shipSpeed );
             } 
@@ -888,25 +890,35 @@ public class XpaceGame extends GameLevel
             //which is
             if( gpdsce.getPin().equals( gpioGameControl.getLeftPad() ) )
             {
-             ship.move( -shipSpeed, 0 );
+                moveLeft = true;
+//             ship.move( -shipSpeed, 0 );
             }
             if( gpdsce.getPin().equals( gpioGameControl.getRigthPad()) )
             {
-                ship.move( shipSpeed, 0 );
+                moveRight = true;
+//                ship.move( shipSpeed, 0 );
             }
             if( gpdsce.getPin().equals( gpioGameControl.getUpPad()) )
             {
-               ship.move( 0, -shipSpeed );
+                moveUp = true;
+//               ship.move( 0, -shipSpeed );
             }
             if( gpdsce.getPin().equals( gpioGameControl.getDownPad()) )
             {
-                ship.move( 0, shipSpeed );
+                moveDown = true;
+//                ship.move( 0, shipSpeed );
             }
             
         }
         else //buttons released
         {
          
+            //if buttons are released
+            moveLeft = false;
+            moveRight =  false;
+            moveUp = false;
+            moveDown = false;
+            
          //pause, shoot, missile
           if( gpdsce.getPin().equals( gpioGameControl.getRedBtn()) )
             {
@@ -1010,8 +1022,9 @@ public class XpaceGame extends GameLevel
         {
         
             case "plasmaBullet":
-            case "laserBuller":
+            case "laserBullet":
             case "waveBullet":
+            case "missileBullet":
                 
                 if( spr.getY() <= -50 )
                 {
@@ -1152,7 +1165,7 @@ public class XpaceGame extends GameLevel
         if( rand.nextInt( 100 ) <= 50 )
         {
                 
-            byte n = (byte)rand.nextInt( 5 );
+            byte n = (byte)rand.nextInt( 6 );
             
             if( !powerUpList.get( n ).isVisible() )
             {
