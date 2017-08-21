@@ -17,7 +17,6 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -82,10 +81,11 @@ public class MazeXample extends GameLevel
          
          
         tileList = Util.getTileList(colmap,
-                1,
                 16, 
                 16, 
-                20,15 );
+                20,
+                15, 
+                1 );
          
         
         tileList.forEach( tile->
