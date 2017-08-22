@@ -256,10 +256,18 @@ public class Title extends GameLevel
         
               if( gpdsce.getPin().equals( gpioGameControl.getGoBtn()) )
             {
-                 if( keyControl.isKeyPress( KeyEvent.VK_ENTER ) )
-                {
                     chooseLvl();
-                }//
+            }
+              if( gpdsce.getPin().equals( gpioGameControl.getDownPad()) )
+            {
+                  selector++;
+                  if(selector >= 4)selector = 4; 
+            }
+              if( gpdsce.getPin().equals( gpioGameControl.getUpPad()) )
+            {
+                   selector--;
+                   if(selector <= 1)selector = 1;
+            
             }
             
         
