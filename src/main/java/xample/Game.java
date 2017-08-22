@@ -6,6 +6,8 @@
 package xample;
 
 
+import demo1.mazexample.MazeXample;
+import demo1.platform.Level1;
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.gamemanager.GameManager;
 import java.util.HashMap;

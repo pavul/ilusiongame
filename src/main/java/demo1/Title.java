@@ -13,8 +13,9 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import xample.Level1;
-import xample.MazeXample;
+import demo1.platform.Level1;
+import demo1.mazexample.MazeXample;
+import demo1.towerdefence.TowerDefence;
 
 /**
  * this class is used to create levels for a game, if your
@@ -297,7 +298,7 @@ public class Title extends GameLevel
                     gm.loadLvl( new MazeXample( 320,240, 320,240 ) );
                     break;
                 case 3:
-                    ///gm.loadLvl( new MazeXample( 320,240, 320,240 ) );
+                    gm.loadLvl( new TowerDefence( 640, 480, 640, 480 ) );
                     break;
                 case 4:
                     gm.loadLvl( new Level1( 960, 320, 480, 320 ) );

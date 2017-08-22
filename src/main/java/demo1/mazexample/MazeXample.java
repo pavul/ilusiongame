@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package xample;
+package demo1.mazexample;
 
 import com.ilusion2.level.GameLevel;
 import com.ilusion2.physics.Collision;
