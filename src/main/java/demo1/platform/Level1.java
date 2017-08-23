@@ -205,6 +205,8 @@ public class Level1 extends GameLevel
 //                       g.translate(cam.getCamx(), cam.getCamy());
                        
                        
+                       player.updateAnimation( 1 );
+                       
                        
                        
                        //to move with gpio pins buttons
@@ -334,7 +336,7 @@ public class Level1 extends GameLevel
         
         try
         {
-            player = new Sprite( 24, 32, ImageIO.read( this.getClass().getResource( "/char1.png" ) )  );
+            player = new Sprite(4 ,21, 32,  "/char1anim.png" );
 //            player = new Sprite( 16,16, ImageIO.read( this.getClass().getResource( "/char1.png" ) )  );
             
             player.setPosition( 20, 320 - 32 - player.getH() );

@@ -215,8 +215,13 @@ public class TowerDefence extends GameLevel
     return true;}
 
     @Override
-    public boolean initHud() {
-    return true;}
+    public boolean initHud() 
+    {
+        
+        eneList.forEach( i -> System.out.println("--> "+ i.getSpriteId() ) );
+        
+    return true;
+    }
 
     @Override
     public boolean initSound() {
