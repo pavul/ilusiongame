@@ -28,7 +28,7 @@ public class TowerDefence extends GameLevel
 
     
     
-    List<Sprite> turretList;
+    List<TurretSprite> turretList;
     
     
     List<Sprite> eneList;
@@ -37,6 +37,9 @@ public class TowerDefence extends GameLevel
     
     
     int shootCounter = 0;
+    
+    
+    
     
     
     public TowerDefence(int roomWidth, int roomHeight, int viewWidth, int viewHeight )
@@ -57,24 +60,24 @@ public class TowerDefence extends GameLevel
         
             case PLAYING:
                 
-                shootCounter ++;
-                if( shootCounter >= 100 )
-                {
-                shootCounter = 0;
-                
-                Sprite ss = bulletList.stream().findFirst().get();
-                    if( !ss.isVisible() )
-                    {
-                        
-                    ss.setPosition(turretList.get( 0 ).getX(),
-                            turretList.get( 0 ).getY() );
-                    ss.setVisible( true );
-                    
-                     ss.moveTo( eneList.get( 0 ) , 5 );
-                    
-                    }
-                
-                }
+//                shootCounter ++;
+//                if( shootCounter >= 100 )
+//                {
+//                shootCounter = 0;
+//                
+//                Sprite ss = bulletList.stream().findFirst().get();
+//                    if( !ss.isVisible() )
+//                    {
+//                        
+//                    ss.setPosition(turretList.get( 0 ).getX(),
+//                            turretList.get( 0 ).getY() );
+//                    ss.setVisible( true );
+//                    
+//                     ss.moveTo( eneList.get( 0 ) , 5 );
+//                    
+//                    }
+//                
+//                }
                 
                 eneList.get( 0 ).move();
                 
@@ -82,6 +85,11 @@ public class TowerDefence extends GameLevel
                 turretList.forEach( turret ->
                 {
                 turret.calculateAngle( eneList.get( 0 ) );
+                
+                
+                //check if there are enemies nearby
+                turret.seekAndDestroy( eneList, this );
+                
                 });
                 
                 
@@ -138,11 +146,13 @@ public class TowerDefence extends GameLevel
         for( int i = 0; i < 4 ; i++ )
         {
             
-                Sprite s = new Sprite( img );
+                TurretSprite s = new TurretSprite( img );
                 s.setVisible( true );
         
                 Sprite t = new Sprite( 0, 0, 32, 32 );
-        
+                t.setVisible( true );
+                
+                
                 turretList.add( s );
                 eneList.add( t );
             
@@ -156,12 +166,14 @@ public class TowerDefence extends GameLevel
         turretList.get( 3 ).setPosition( 200, 280);
         
         
-        eneList.get( 0 ).setSpeedX( 1 );
+        
+        
+        eneList.get( 0 ).setSpeedX( -1 );
         eneList.get( 1 ).setSpeedX( 2 );
         eneList.get( 2 ).setSpeedX( 1 );
         eneList.get( 3 ).setSpeedX( 5 );
         
-        eneList.get( 0 ).setPosition( 0, 240 );
+        eneList.get( 0 ).setPosition( roomWidth, 240 );
         
         
         Image bImg = null;
@@ -177,14 +189,19 @@ public class TowerDefence extends GameLevel
         
         bulletList = new ArrayList<>();
         
-        for(int i=0; i < 10 ; i++)
+        for(int i=0; i < 4 ; i++)
         {
             Sprite s = new Sprite( bImg );
             s.setPosition( 0,0 );
-            
+            s.setVisible( true );
             
             bulletList.add( s );
-        
+            
+            
+        //setting bullets
+        turretList.get( i ).setBullet( bulletList.get( i ) );
+            
+            
         }
         
         
@@ -252,23 +269,24 @@ public class TowerDefence extends GameLevel
                 eneList.forEach( ene ->
                 {
 //                    ene.draw(g);
-                    g.setColor(Color.white);
+                    if( ene.isVisible() )
+                    {
+                    g.setColor( Color.white );
                     g.fillRect(
                     (int)ene.getX(),
                     (int)ene.getY(),
                     (int)ene.getW(), 
                     (int)ene.getH()
                     );
+                    }
+                    
                 } );
                 
                 
                 
                 bulletList.forEach( bull ->
                 {
-                    if( bull.isVisible() )
-                    {
-                    bull.draw( g );
-                    }
+                    bull.drawRotate( g );  
                 } );
                 
                 break;

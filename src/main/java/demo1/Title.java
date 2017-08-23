@@ -38,7 +38,6 @@ public class Title extends GameLevel
      {
          super( roomWidth, roomHeight,viewWidth, viewHeight );
          
-         
      //comment this if u want to run in PC, 
      //enable to run in raspberry and to use GPIO pins as control
 //     try
