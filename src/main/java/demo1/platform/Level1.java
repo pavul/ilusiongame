@@ -337,10 +337,13 @@ public class Level1 extends GameLevel
         try
         {
             player = new Sprite(4 ,21, 32,  "/char1anim.png" );
-//            player = new Sprite( 16,16, ImageIO.read( this.getClass().getResource( "/char1.png" ) )  );
+//            player = w33new Sprite( 16,16, ImageIO.read( this.getClass().getResource( "/char1.png" ) )  );
             
             player.setPosition( 20, 320 - 32 - player.getH() );
             player.setVisible( true );
+            
+            player.setxScale(1.5f);
+            player.setyScale(1.5f);
             
             player.setJumpForce( 5 );
             
@@ -517,7 +520,12 @@ public class Level1 extends GameLevel
     public void renderForeground(Graphics2D g2) 
     {
         
-        player.draw( g2 );
+//        player.draw( g2 );
+        
+        
+        g2.drawImage( player.getFrames()[0] , 40,40,100,20,null);
+        
+        player.drawScaled (g2 );
         
         
         g2.setColor( Color.red );

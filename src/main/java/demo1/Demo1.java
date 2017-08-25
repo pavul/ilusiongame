@@ -36,7 +36,6 @@ public class Demo1
              GameManager gm = new GameManager( title , false );
              gm.setFocusable( true );
             
-             
 //             frame.setIconImage(new BufferedImage( getClass().getClassLoader().getResource("PATH/TO/YourImage.png") ) );
              
             //instanciate frame here
@@ -45,7 +44,7 @@ public class Demo1
             frame.setUndecorated( true ); //to quit window bar
             frame.add( gm );
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
+//            frame.pack();
             
             frame.setSize( gm.getScaledWindowSize() );
             frame.setLocationRelativeTo( null ); //for center
