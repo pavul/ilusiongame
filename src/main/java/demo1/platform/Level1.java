@@ -252,29 +252,57 @@ public class Level1 extends GameLevel
                        
                       
                         //@NEW APPROACH
-                        if ( Collision.getInstance().checkColsionTile(player, colTileList)
-                                .equals( Config.COLISION_BOTTOM ) )
+//                        if ( Collision.getInstance().checkColsionTile(player, colTileList)
+//                                .equals( Config.COLISION_BOTTOM ) )
+//                        {
+//                            player.setJump( false );
+//                        }//
+                        
+                        
+                        //on Y axis
+                        colTileList.forEach( tile->
                         {
-                            player.setJump( false );
-                        }//
+                            Collision.getInstance().
+                                    blockYAxisRectangles(
+                                            player, 
+                                            tile.getX(), 
+                                            tile.getY(), 
+                                            tile.getW(), 
+                                            tile.getH());
+                        }
+                        );
+                        
+                        //on X axis
+                        colTileList.forEach( tile->
+                        {
+                            Collision.getInstance().
+                                    blockXAxisRectangles(
+                                            player, 
+                                            tile.getX(), 
+                                            tile.getY(), 
+                                            tile.getW(), 
+                                            tile.getH());
+                        }
+                        );
                         
                         
                         
-                        //@OLD APROACH
-                       if(
-                       !Collision.getInstance().
-                       checkColsionFree 
-                        (
-                        player, 2,
-                        tileColisionMap, 
-                        columns,
-                        rows, 
-                        tileWidth,
-                        tileHeigth
-                        ) && !player.isJump() )
-                       {
-                       player.setJump( true );
-                       }
+                        
+//                        //@OLD APROACH
+//                       if(
+//                       !Collision.getInstance().
+//                       checkColsionFree 
+//                        (
+//                        player, 2,
+//                        tileColisionMap, 
+//                        columns,
+//                        rows, 
+//                        tileWidth,
+//                        tileHeigth
+//                        ) && !player.isJump() )
+//                       {
+//                       player.setJump( true );
+//                       }
                          
                         
 
@@ -339,11 +367,11 @@ public class Level1 extends GameLevel
             player = new Sprite(4 ,21, 32,  "/char1anim.png" );
 //            player = w33new Sprite( 16,16, ImageIO.read( this.getClass().getResource( "/char1.png" ) )  );
             
-            player.setPosition( 20, 320 - 32 - player.getH() );
+            player.setPosition( 20, 100 - 32 - player.getH() );
             player.setVisible( true );
             
-            player.setxScale(1.5f);
-            player.setyScale(1.5f);
+//            player.setxScale(1.5f);
+//            player.setyScale(1.5f);
             
             player.setJumpForce( 5 );
             
@@ -520,12 +548,12 @@ public class Level1 extends GameLevel
     public void renderForeground(Graphics2D g2) 
     {
         
-//        player.draw( g2 );
+        player.draw( g2 );
         
-        
+        //this is to stretch the image
         g2.drawImage( player.getFrames()[0] , 40,40,100,20,null);
         
-        player.drawScaled (g2 );
+//        player.drawScaled ( g2 );
         
         
         g2.setColor( Color.red );
