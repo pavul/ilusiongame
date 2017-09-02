@@ -392,8 +392,6 @@ public class Level1 extends GameLevel
         backgroundTile = new Sprite( 16, 16, bufBackground );
         
         
-        
-        
         //set cammera bounds here!
         player.setRoomBoundLeft( 0 );
         player.setRoomBoundRight( roomWidth );

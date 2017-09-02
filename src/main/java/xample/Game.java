@@ -59,7 +59,7 @@ public class Game
             //se crea el room, este contiene a todos los niveles
             //this creates the room container that will have all levels and
             //will set the screen to full screen
-        GameManager room = new GameManager( "first", levelStack, false );
+        GameManager room = new GameManager( "first", levelStack, true );
         
         room.setFocusable( true );
 //        room.setIgnoreRepaint( true );
