@@ -50,7 +50,7 @@ public class Game2
 
         //this resize the frame to the correct scaled width and heigth 
         //of the of teh scaled view port
-        frame.setSize( room.getScaledWindowSize() );
+        frame.setSize( room.getGameSize() );
         
         frame.setLocationRelativeTo( null ); //for center
         frame.setVisible(true);

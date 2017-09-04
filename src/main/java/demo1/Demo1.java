@@ -35,24 +35,24 @@ public class Demo1
             //create GameManager here ( this is )
              GameManager gm = new GameManager( title , true );
              gm.setFocusable( true );
-             gm.setIgnoreRepaint( true );
+//             gm.setIgnoreRepaint( true );
 //             frame.setIconImage(new BufferedImage( getClass().getClassLoader().getResource("PATH/TO/YourImage.png") ) );
              
             //instanciate frame here
             frame = new JFrame("Demo1");
-//            frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+            frame.setExtendedState( JFrame.MAXIMIZED_BOTH ); 
             frame.setUndecorated( true ); //to quit window bar
             frame.add( gm );
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
+            frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+//            frame.pack();
             
-            frame.setSize( gm.getScaledWindowSize() );
+            frame.setSize( gm.getGameSize() );
             frame.setLocationRelativeTo( null ); //for center
             frame.setVisible( true );
             frame.setResizable( false );
-//            frame.pack();
+            frame.pack();
             
-            gm.setgameContainer(frame ) ;
+            gm.setgameContainer( frame ) ;
             
             //finally set Game Manager settings and start the game
             gm.setFps( 30 );
