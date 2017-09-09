@@ -18,7 +18,6 @@ import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -103,13 +102,13 @@ public class Level1 extends GameLevel
      52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,11,11,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
      52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 11,11,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
      52,52,52,52,52,52,52,52,52,52,52,52,52,11,11,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,11,11,43,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,52,11,11,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
     
-     52,52,52,52,52,52,52,52,42,10,10,52,43,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11,52,52, 52,52,52,52,52,52,52,52,42,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,42,10,10,10,52,52,43,52,52,52,52,52,52,52,52,52,52,52,52,11,52,52,52, 52,52,52,52,52,52,52,42,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,42,10,10,10,10,52,52,52,43,52,52,52,52,52,52,52,52,52,52,11,52,52,52,52, 52,52,52,52,52,52,42,10,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,42,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11,52,52, 52,52,52,52,52,52,52,52,42,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,42,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11,52,52,52, 52,52,52,52,52,52,52,42,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,42,10,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11,52,52,52,52, 52,52,52,52,52,52,42,10,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
      11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11, 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0    
+     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0    
      };
      
      
@@ -134,11 +133,11 @@ public class Level1 extends GameLevel
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,1,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     
-     0,0,0,0,0,0,0,0,2,0,1,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,2,0,1,1,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,2,0,1,1,1,0,0,0,3,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,2,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
      };
@@ -253,57 +252,57 @@ public class Level1 extends GameLevel
                        
                       
                         //@NEW APPROACH
-                        if ( Collision.getInstance().checkColsionTile(player, colTileList)
-                                .equals( Config.COLISION_BOTTOM ) )
-                        {
-                            player.setJump( false );
-                        }//
+//                        if ( Collision.getInstance().checkColsionTile(player, colTileList)
+//                                .equals( Config.COLISION_BOTTOM ) )
+//                        {
+//                            player.setJump( false );
+//                        }//
                         
                         
                         //on Y axis
-//                        colTileList.forEach( tile->
-//                        {
-//                            Collision.getInstance().
-//                                    blockYAxisRectangles(
-//                                            player, 
-//                                            tile.getX(), 
-//                                            tile.getY(), 
-//                                            tile.getW(), 
-//                                            tile.getH());
-//                        }
-//                        );
-//                        
-//                        //on X axis
-//                        colTileList.forEach( tile->
-//                        {
-//                            Collision.getInstance().
-//                                    blockXAxisRectangles(
-//                                            player, 
-//                                            tile.getX(), 
-//                                            tile.getY(), 
-//                                            tile.getW(), 
-//                                            tile.getH());
-//                        }
-//                        );
+                        colTileList.forEach( tile->
+                        {
+                            Collision.getInstance().
+                                    blockYAxisRectangles(
+                                            player, 
+                                            tile.getX(), 
+                                            tile.getY(), 
+                                            tile.getW(), 
+                                            tile.getH());
+                        }
+                        );
+                        
+                        //on X axis
+                        colTileList.forEach( tile->
+                        {
+                            Collision.getInstance().
+                                    blockXAxisRectangles(
+                                            player, 
+                                            tile.getX(), 
+                                            tile.getY(), 
+                                            tile.getW(), 
+                                            tile.getH());
+                        }
+                        );
                         
                         
                         
                         
 //                        //@OLD APROACH
-                       if(
-                       !Collision.getInstance().
-                       checkColsionFree 
-                        (
-                        player, 2,
-                        tileColisionMap, 
-                        columns,
-                        rows, 
-                        tileWidth,
-                        tileHeigth
-                        ) && !player.isJump() )
-                       {
-                       player.setJump( true );
-                       }
+//                       if(
+//                       !Collision.getInstance().
+//                       checkColsionFree 
+//                        (
+//                        player, 2,
+//                        tileColisionMap, 
+//                        columns,
+//                        rows, 
+//                        tileWidth,
+//                        tileHeigth
+//                        ) && !player.isJump() )
+//                       {
+//                       player.setJump( true );
+//                       }
                          
                         
 
@@ -376,9 +375,7 @@ public class Level1 extends GameLevel
             
             player.setJumpForce( 5 );
             
-            player.setW( 16 );
-            
-            player.setAnchor(new Point( ( int )player.getHalfWidth(), ( int )player.getH() ));
+//            player.setAnchor(new Point( ( int )player.getHalfWidth(), ( int )player.getH() ));
 //            player.setAnchor(new Point( 10 , ( int )player.getH() ));
             
             //player.setJumpValue( 1 );
@@ -467,7 +464,7 @@ public class Level1 extends GameLevel
                 tileHeigth, 
                 columns, 
                 rows,
-                new int[]{0,10,11, 42,43}
+                new int[]{0,10,11}
         );
         
         
@@ -479,7 +476,7 @@ public class Level1 extends GameLevel
                 tileHeigth, 
                 columns, 
                 rows, 
-                new int[]{1,2,3});
+                1);
         
 //        System.out.println(" bg: "+bgTileList.size() +" - col: " + colTileList.size());
         
@@ -551,36 +548,13 @@ public class Level1 extends GameLevel
         
         player.draw( g2 );
         
-        g2.setColor( Color.red );
-        g2.drawRect( 
-                (int)player.getX(), 
-                (int)player.getY(),
-                (int)player.getW(),
-                (int)player.getH()
-                    );
-        
-        g2.setColor( Color.MAGENTA );
-        g2.drawOval( 
-                (int)player.getAnchor().x,
-                (int)player.getAnchor().y -2, 4, 4);
-        
-        
         //this is to stretch the image
-//        g2.drawImage( player.getFrames()[0] , 40,40,100,20,null);
+        g2.drawImage( player.getFrames()[0] , 40,40,100,20,null);
         
-        //player.drawScaled ( g2 );
+//        player.drawScaled ( g2 );
         
-//        g2.setColor( Color.blue );
-//        
-//        colTileList.stream().forEach( tile -> 
-//        
-//                g2.drawRect(tile.getX(), 
-//                        tile.getY(),
-//                        tile.getW(),
-//                        tile.getH() )
-//                
-//        );
         
+        g2.setColor( Color.red );
 //        g2.drawString("[]", player.getX() + player.getAnchor().x, player.getY( ) + player.getAnchor().y );
 //        player//.drawBalisticTrayectory((Graphics2D)g );
 //        .drawBalisticTrayectory( g2 ,
@@ -633,9 +607,7 @@ public class Level1 extends GameLevel
     @Override
     public void updateControl() 
     { 
-//     player.setAnchor(new Point(  ));
-     player.getAnchor().move( (int)player.getX() + (int)player.getHalfWidth(),
-                (int)player.getY()+(int)player.getH() );
+     
         //keyboard control
             if(keyControl.isKeyDown( KeyEvent.VK_RIGHT ))
             {
@@ -659,12 +631,6 @@ public class Level1 extends GameLevel
                 System.out.println("jumping");
                 player.setJump( true );
                 player.setJumpValue( 5 );
-                
-//                Util.takeScreenShoot( 
-//                        viewWidth * ( float )xScale, 
-//                        viewHeight * ( float )yScale, 
-//                        "level1" );
-                
             } 
             
          
@@ -698,16 +664,6 @@ public class Level1 extends GameLevel
 //                musicPlayer.pause();
             }//
             
-             
-             //to take screen shoot
-              if( keyControl.isKeyPress( KeyEvent.VK_P ) )
-            {
-                Util.takeScreenShoot( 
-                        viewWidth * ( float )xScale, 
-                        viewHeight * ( float )yScale, 
-                        "level1" );
-            }//
-             
             
 /**
  * mouse control 
