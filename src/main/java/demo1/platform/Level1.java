@@ -22,6 +22,9 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -103,11 +106,11 @@ public class Level1 extends GameLevel
      52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 52,52,52,11,11,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
      52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52, 11,11,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
      52,52,52,52,52,52,52,52,52,52,52,52,52,11,11,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,52,52,11,11,43,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,52,42,11,11,43,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11,52, 52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
     
-     52,52,52,52,52,52,52,52,42,10,10,52,43,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11,52,52, 52,52,52,52,52,52,52,52,42,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,52,42,10,10,10,52,52,43,52,52,52,52,52,52,52,52,52,52,52,52,11,52,52,52, 52,52,52,52,52,52,52,42,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
-     52,52,52,52,52,52,42,10,10,10,10,52,52,52,43,52,52,52,52,52,52,52,52,52,52,11,52,52,52,52, 52,52,52,52,52,52,42,10,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,52,42,52,10,10,52,43,52,52,52,52,52,52,52,52,52,52,52,52,52,52,11,52,52, 52,52,52,52,52,52,52,52,42,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,52,42,52,10,10,10,52,52,43,52,52,52,52,52,52,52,52,52,52,52,52,11,52,52,52, 52,52,52,52,52,52,52,42,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
+     52,52,52,52,52,42,52,10,10,10,10,52,52,52,43,52,52,52,52,52,52,52,52,52,52,11,52,52,52,52, 52,52,52,52,52,52,42,10,10,10,10,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,
      11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11, 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0    
      };
@@ -134,11 +137,11 @@ public class Level1 extends GameLevel
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,0,0,1,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,2,1,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     
-     0,0,0,0,0,0,0,0,2,0,1,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,0,2,0,1,1,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-     0,0,0,0,0,0,2,0,1,1,1,0,0,0,3,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,2,0,0,1,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,2,0,0,1,1,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,2,0,0,1,1,1,0,0,0,3,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
      };
@@ -203,9 +206,8 @@ public class Level1 extends GameLevel
                        break;
                    case PLAYING:
                        //put gameplay code here
-//                       g.translate(cam.getCamx(), cam.getCamy());
                        
-                       
+                       //this is to move player frames
                        player.updateAnimation( 1 );
                        
                        
@@ -253,6 +255,8 @@ public class Level1 extends GameLevel
                        
                       
                         //@NEW APPROACH
+                        //NOTE: if this method is enabled then 
+                        //you should call checkColsionFree after this
                         if ( Collision.getInstance().checkColsionTile(player, colTileList)
                                 .equals( Config.COLISION_BOTTOM ) )
                         {
@@ -262,30 +266,98 @@ public class Level1 extends GameLevel
                         
                         //on Y axis
 //                        colTileList.forEach( tile->
+////                        colTileList.stream().filter( tile ->
 //                        {
+//                            
+//                            
+//                            //1.- check if tile is inside view
+//                            if( Util.isInside(
+//                            tile.getX(),
+//                            tile.getY(),
+//                            tile.getW(),
+//                            tile.getH(),
+//                            cam.getOffsetX(),
+//                            cam.getOffsetY(),
+//                            cam.getViewXPort(),
+//                            cam.getViewYPort() ) )
+//                            {
+//                                
+//                            //2.- then check slope collision
+////                            if( Collision.
+////                                getInstance().
+////                                checkSlopeCollision( 
+////                                tile.getValue(), 
+////                                player, 
+////                                tile ) )
+////                            {
+////                                return true;
+////                            }
+////                            else
+////                            {
 //                            Collision.getInstance().
-//                                    blockYAxisRectangles(
-//                                            player, 
-//                                            tile.getX(), 
-//                                            tile.getY(), 
-//                                            tile.getW(), 
-//                                            tile.getH());
+//                            blockYAxisRectangles(
+//                            player, 
+//                            tile.getX(), 
+//                            tile.getY(), 
+//                            tile.getW(), 
+//                            tile.getH());    
+////                            return true;
+////                            }
+//                            
+//                               
+//                            }//
+//                            
+////                        return false;
 //                        }
-//                        );
+//                        );//.findFirst().orElse( null );
 //                        
-//                        //on X axis
-//                        colTileList.forEach( tile->
-//                        {
-//                            Collision.getInstance().
-//                                    blockXAxisRectangles(
-//                                            player, 
-//                                            tile.getX(), 
-//                                            tile.getY(), 
-//                                            tile.getW(), 
-//                                            tile.getH());
-//                        }
-//                        );
                         
+                        //on X axis
+//                        colTileList.stream().filter( tile->
+//                        colTileList.forEach(tile->
+//                        {
+//                            
+//                            //1.- check if tile is inside view
+//                            if( Util.isInside(
+//                            tile.getX(),
+//                            tile.getY(),
+//                            tile.getW(),
+//                            tile.getH(),
+//                            cam.getOffsetX(),
+//                            cam.getOffsetY(),
+//                            cam.getViewXPort(),
+//                            cam.getViewYPort() ) )
+//                            {
+//                            
+//                                //2.- then check slope collision
+////                                if( 
+////                                    Collision.
+////                                    getInstance().
+////                                    checkSlopeCollision( 
+////                                    tile.getValue(), 
+////                                    player, 
+////                                    tile )
+////                                            )
+////                                { return true; }
+////                                else
+////                                {
+//                                Collision.getInstance().
+//                                blockXAxisRectangles(
+//                                player, 
+//                                tile.getX(), 
+//                                tile.getY(), 
+//                                tile.getW(), 
+//                                tile.getH());
+////                                return true;
+////                                }
+//                                
+//                            
+//                            }
+//                            
+////                            return false;
+//                        }
+//                        );//.findFirst().orElse( null );
+//                        
                         
                         
                         
@@ -294,7 +366,7 @@ public class Level1 extends GameLevel
                        !Collision.getInstance().
                        checkColsionFree 
                         (
-                        player, 2,
+                        player, 1,
                         tileColisionMap, 
                         columns,
                         rows, 
@@ -481,6 +553,18 @@ public class Level1 extends GameLevel
                 rows, 
                 new int[]{1,2,3});
         
+//        colTileList = 
+                Collections.sort(colTileList, 
+                        (Tile t1, Tile t2) -> 
+                                new Integer( t2.getValue() ).compareTo( t1.getValue() ));
+        
+                
+                colTileList.stream().forEach(t -> 
+                {
+                    System.out.println("val: "+t.getValue() );
+                } 
+                );
+                
 //        System.out.println(" bg: "+bgTileList.size() +" - col: " + colTileList.size());
         
         try
@@ -652,6 +736,23 @@ public class Level1 extends GameLevel
                 { cam.moveX( 3 ); } 
                 
             }
+            
+            if(keyControl.isKeyPress( KeyEvent.VK_F ))
+            {
+                player.setxScale( player.getxScale() + 1f );
+                player.setyScale( player.getyScale() + 1f );
+                
+//                if( player.getxScale() < 0 )
+//                {
+//                    player.setxScale( 1f ); 
+//                }
+//                else 
+//                {
+//                    player.setxScale( -1f ); 
+//                }
+                
+            }
+            
             //this is ISKEYPRESS because it only executes once when
             //the key is presed
             if(keyControl.isKeyPress( KeyEvent.VK_SPACE ) )
