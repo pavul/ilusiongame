@@ -11,6 +11,7 @@ import com.ilusion2.gamemanager.GameState;
 import com.ilusion2.inventory.Inventory;
 import com.ilusion2.inventory.Item;
 import com.ilusion2.level.GameLevel;
+import com.ilusion2.particle.Particle;
 import com.ilusion2.physics.Collision;
 import com.ilusion2.sprite.Sprite;
 import com.ilusion2.util.Util;
@@ -22,9 +23,7 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,6 +81,9 @@ public class Level1 extends GameLevel
      List<Item> itemList;
      Inventory inventory;
      
+     
+     
+     List<Particle> particleList;
      
      
      /**
@@ -206,6 +208,27 @@ public class Level1 extends GameLevel
                        break;
                    case PLAYING:
                        //put gameplay code here
+                       
+                       
+                       
+                       particleList.forEach(
+                       p -> 
+                       {
+                           if( p.updateWithGravity() )
+                           {
+                               p.setX( player.getCenterX() );
+                               p.setY( player.getCenterY() );
+                               p.setSx( Util.generatRandomPositiveNegitiveValue( 2, 2));
+                               p.setSy( Util.generatRandomPositiveNegitiveValue( 2, 2));
+                               p.setLife( 300 );
+                               p.setColor( Util.getRandomColor() );
+//                               p.setGravity( .2f );
+                           }
+                       }        
+                       );
+                       
+                       
+                       
                        
                        //this is to move player frames
                        player.updateAnimation( 1 );
@@ -582,6 +605,30 @@ public class Level1 extends GameLevel
         inventory = new Inventory(itemList, 0, 0);
         
         
+        
+        //creating particle list
+        particleList = new ArrayList<>();
+        for( byte bi = 0; bi < 100; bi++ )
+        {
+        Particle p = new Particle();
+        p.setX( Util.generatRandomPositiveNegitiveValue( cam.getOffsetX(), (int)cam.getViewWidth() ) );
+        p.setY( Util.generatRandomPositiveNegitiveValue( cam.getOffsetY(), (int)cam.getViewHeigth() ) );
+        p.setW( 4 );
+        p.setH( 4 );
+        p.setLife( 300 );
+        p.setCurrentDraw( Particle.DRAW_FILLEDOVAL );
+//        p.setColor( Color.yellow );
+        p.setColor( Util.getRandomColor() );
+            System.err.println("set SPEED: ");
+        p.setSx( Util.generatRandomPositiveNegitiveValue( 2, 2));
+        p.setSy( Util.generatRandomPositiveNegitiveValue( 2, 2));
+        
+        particleList.add( p );
+        
+        }//
+        
+        
+        
         return true;
     }
 
@@ -680,6 +727,11 @@ public class Level1 extends GameLevel
          }//
         
         
+         particleList.forEach( p -> 
+         {
+             p.draw( g2 );
+         } );
+         
         
     }//
 
@@ -926,7 +978,6 @@ if(mouseControl.isPressed())
             
             moveLeft = false;
             moveRight = false;
-            
         
         }
         

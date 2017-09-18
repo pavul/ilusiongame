@@ -189,7 +189,7 @@ public class XpaceGame extends GameLevel
             {
                 if( ene.isVisible() )
                 {
-                    ene.move();
+                    ene.moveEasing( 0.5f );
                     ene.updateAnimation( Sprite.ANIM_FOWARD );
                     
                     if( ene.getFrames().length > 1 && ene.isAnimationEnd() )
