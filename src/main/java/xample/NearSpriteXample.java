@@ -47,7 +47,7 @@ public class NearSpriteXample extends GameLevel
         
         
     @Override
-    public void update()
+    public void update( double delta  )
     {
      
         player.spriteNearest(spritePool, this ).moveSpeedX( 3 );

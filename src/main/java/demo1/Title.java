@@ -59,7 +59,7 @@ public class Title extends GameLevel
      * render()
      */
     @Override
-    public void update() 
+    public void update( double delta ) 
     {
         //
         updateControl();

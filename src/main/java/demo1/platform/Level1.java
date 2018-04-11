@@ -198,7 +198,7 @@ public class Level1 extends GameLevel
     
     
     @Override
-    public void update() 
+    public void update( double delta  ) 
     {
         
          switch( gameState )

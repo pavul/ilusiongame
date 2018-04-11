@@ -47,7 +47,7 @@ public class RotationXample extends GameLevel
      
      
     @Override
-    public void update() 
+    public void update( double delta  ) 
     {
         
         

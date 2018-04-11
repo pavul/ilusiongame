@@ -108,7 +108,7 @@ public class MazeXample extends GameLevel
     }
     
     @Override
-    public synchronized void update()
+    public synchronized void update( double delta  )
     {
     
         

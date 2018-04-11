@@ -168,7 +168,7 @@ public class XpaceGame extends GameLevel
      * render()
      */
     @Override
-    public void update() 
+    public void update( double delta  ) 
     {
        
         
@@ -183,6 +183,11 @@ public class XpaceGame extends GameLevel
             case PLAYING:
                 
         updateControl();
+        
+        //moving nave with detal
+                System.err.println("delta: "+delta);
+        ship.move( (float)(2 * delta) , 0 );
+        
         
         
            for( Sprite ene: enemyList )
@@ -779,6 +784,7 @@ public class XpaceGame extends GameLevel
             {
                 
                 ship.move( shipSpeed, 0 );
+                
             }
              if(keyControl.isKeyDown(KeyEvent.VK_LEFT) || moveLeft )
             {
